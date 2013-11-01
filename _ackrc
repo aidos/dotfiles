@@ -1,0 +1,5 @@
+--type-add=ruby=.haml,.rake
+--type-add=css=.less
+--type-set=svg=.svg
+--type=nosvg
+

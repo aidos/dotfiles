@@ -2,11 +2,8 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-filetype off
 call pathogen#infect()
 call pathogen#helptags()
-syntax on
-filetype plugin indent on
 
 " use system clipboard
 set clipboard=unnamedplus

@@ -1,21 +1,21 @@
-[submodule "bundle/vim-less"]
-	path = bundle/vim-less
+[submodule "_vim/bundle/vim-less"]
+	path = _vim/bundle/vim-less
 	url = https://github.com/groenewege/vim-less
-[submodule "bundle/ctrlp.vim"]
-	path = bundle/ctrlp.vim
+[submodule "_vim/bundle/ctrlp.vim"]
+	path = _vim/bundle/ctrlp.vim
 	url = https://github.com/kien/ctrlp.vim.git
-[submodule "bundle/fugitive"]
-	path = bundle/fugitive
+[submodule "_vim/bundle/fugitive"]
+	path = _vim/bundle/fugitive
 	url = git://github.com/tpope/vim-fugitive.git
-[submodule "bundle/commentary"]
-	path = bundle/commentary
+[submodule "_vim/bundle/commentary"]
+	path = _vim/bundle/commentary
 	url = git://github.com/tpope/vim-commentary.git
-[submodule "bundle/vim-colors-solarized"]
-	path = bundle/vim-colors-solarized
+[submodule "_vim/bundle/vim-colors-solarized"]
+	path = _vim/bundle/vim-colors-solarized
 	url = git://github.com/altercation/vim-colors-solarized.git
-[submodule "bundle/Vim-Jinja2-Syntax"]
-	path = bundle/Vim-Jinja2-Syntax
+[submodule "_vim/bundle/Vim-Jinja2-Syntax"]
+	path = _vim/bundle/Vim-Jinja2-Syntax
 	url = https://github.com/Glench/Vim-Jinja2-Syntax
-[submodule "bundle/ack.vim"]
-	path = bundle/ack.vim
+[submodule "_vim/bundle/ack.vim"]
+	path = _vim/bundle/ack.vim
 	url = https://github.com/mileszs/ack.vim.git

@@ -32,3 +32,7 @@ source /usr/local/bin/virtualenvwrapper.sh
 
 mkvirtualenv rapditender
 
+sudo apt-get install nfs-common portmap
+
+# general rapidtender config here
+

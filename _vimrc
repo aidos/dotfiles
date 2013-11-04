@@ -2,12 +2,11 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-"if &term == 'xterm' || &term == 'screen'
-    "set t_Co=256                 " Enable 256 colors to stop the CSApprox warning and make xterm vim shine
-"endif
-
+filetype off
 call pathogen#infect()
 call pathogen#helptags()
+syntax on
+filetype plugin indent on
 
 " use system clipboard
 set clipboard=unnamedplus

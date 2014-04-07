@@ -19,3 +19,6 @@
 [submodule "_vim/bundle/ack.vim"]
 	path = _vim/bundle/ack.vim
 	url = https://github.com/mileszs/ack.vim.git
+[submodule "_vim/bundle/salt"]
+	path = _vim/bundle/salt
+	url = https://github.com/saltstack/salt-vim.git

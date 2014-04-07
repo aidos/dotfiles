@@ -5,9 +5,6 @@ set nocompatible
 call pathogen#infect()
 call pathogen#helptags()
 
-" use system clipboard
-set clipboard=unnamedplus
-
 " No Help, please
 nmap <F1> <Esc>
 
@@ -150,7 +147,8 @@ autocmd FileType vim setlocal expandtab shiftwidth=2 tabstop=8 softtabstop=2
 autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 formatoptions-=ro
 let javascript_enable_domhtmlcss=1
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.svg,*.pdf,*.xls,.DS_Store,*/tinymce/*,*.png,*.jpg,*.gif
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.svg,*.pdf,*.xls,.DS_Store,*/tinymce/*,*.png
+set wildignore+=*.jpg,*.gif,*/static/components/*,*/node_modules/*,*/WEB-INF/railo/*
 
 set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15

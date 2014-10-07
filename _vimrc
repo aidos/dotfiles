@@ -147,8 +147,8 @@ autocmd FileType vim setlocal expandtab shiftwidth=2 tabstop=8 softtabstop=2
 autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 formatoptions-=ro
 let javascript_enable_domhtmlcss=1
 
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.svg,*.pdf,*.xls,.DS_Store,*/tinymce/*,*.png
-set wildignore+=*.jpg,*.gif,*/static/components/*,*/node_modules/*,*/WEB-INF/railo/*
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.svg,*.svgz,*.pdf,*.xlsx,*.xls,.DS_Store,*/tinymce/*,*.png
+set wildignore+=*.jpg,*.gif,*/static/components/*,*/node_modules/*,*/WEB-INF/railo/*,*.doc,*.docx
 
 set scrolloff=8         "Start scrolling when we're 8 lines away from margins
 set sidescrolloff=15

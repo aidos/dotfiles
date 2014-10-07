@@ -1,5 +1,5 @@
---type-add=ruby=.haml,.rake
---type-add=css=.less
---type-set=svg=.svg
---type=nosvg
+--smart-case
+--type-add=ruby:ext:haml,rake
+--type-add=svg:ext:svg,svgz
+--nosvg
 

@@ -13,9 +13,6 @@
 [submodule "_vim/bundle/vim-colors-solarized"]
 	path = _vim/bundle/vim-colors-solarized
 	url = git://github.com/altercation/vim-colors-solarized.git
-[submodule "_vim/bundle/Vim-Jinja2-Syntax"]
-	path = _vim/bundle/Vim-Jinja2-Syntax
-	url = https://github.com/Glench/Vim-Jinja2-Syntax
 [submodule "_vim/bundle/ack.vim"]
 	path = _vim/bundle/ack.vim
 	url = https://github.com/mileszs/ack.vim.git

@@ -31,3 +31,6 @@
 [submodule "_vim/bundle/vim-sensible"]
 	path = _vim/bundle/vim-sensible
 	url = https://github.com/tpope/vim-sensible
+[submodule "_vim/bundle/Vim-Jinja2-Syntax"]
+	path = _vim/bundle/Vim-Jinja2-Syntax
+	url = https://github.com/icook/Vim-Jinja2-Syntax.git

@@ -5,8 +5,14 @@ set nocompatible
 call pathogen#infect()
 call pathogen#helptags()
 
+" TODO switch to using vim-sensible?
+" https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
+
 " No Help, please
 nmap <F1> <Esc>
+
+" incremental search
+set incsearch
 
 " Make backspace behave in a sane manner.
 set backspace=indent,eol,start
@@ -24,12 +30,12 @@ let mapleader = ","
 syntax on
 
 " colorscheme
-"let g:solarized_termcolors=256
 let g:solarized_termcolors=256
 set background=dark
-colorscheme molokai
+colorscheme ChocolateLiquor
 "let &colorcolumn=join(range(81,999),",")
 "highlight ColorColumn ctermbg=232 guibg=#2c2d27
+
 highlight Normal ctermbg=Black ctermfg=White guifg=White guibg=Black
 
 " insert cursor

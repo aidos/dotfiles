@@ -22,3 +22,15 @@
 [submodule "_vim/bundle/salt"]
 	path = _vim/bundle/salt
 	url = https://github.com/saltstack/salt-vim.git
+[submodule "_vim/bundle/colorschemes"]
+	path = _vim/bundle/colorschemes
+	url = https://github.com/flazz/vim-colorschemes.git
+[submodule "_vim/bundle/vim-sleuth"]
+	path = _vim/bundle/vim-sleuth
+	url = git://github.com/tpope/vim-sleuth.git
+[submodule "_vim/bundle/closetag"]
+	path = _vim/bundle/closetag
+	url = https://github.com/vim-scripts/closetag.vim
+[submodule "_vim/bundle/vim-sensible"]
+	path = _vim/bundle/vim-sensible
+	url = https://github.com/tpope/vim-sensible

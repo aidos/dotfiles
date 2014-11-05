@@ -5,7 +5,7 @@ set nocompatible
 call pathogen#infect()
 call pathogen#helptags()
 
-" TODO switch to using vim-sensible?
+" Also using vim-sensible now so many of these options are defunct
 " https://github.com/tpope/vim-sensible/blob/master/plugin/sensible.vim
 
 " No Help, please
@@ -29,14 +29,14 @@ let mapleader = ","
 " Switch syntax highlighting on
 syntax on
 
-" colorscheme
-let g:solarized_termcolors=256
-set background=dark
-colorscheme ChocolateLiquor
+" colors
+"set background=dark
+"colorscheme ChocolateLiquor
+"colorscheme hybrid
+colorscheme monokain
 "let &colorcolumn=join(range(81,999),",")
-"highlight ColorColumn ctermbg=232 guibg=#2c2d27
-
 highlight Normal ctermbg=Black ctermfg=White guifg=White guibg=Black
+"highlight ColorColumn ctermbg=232 guibg=#2c2d27
 
 " insert cursor
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
@@ -76,6 +76,8 @@ cnoremap <C-g>  <C-c>
 
 " shortcut for Ack
 map <leader>f :Ack -Q<Space>
+
+map <leader>p :set paste!<CR>
 
 " Use the same symbols as TextMate for tabstops and EOLs
 set listchars=tab:▸\ ,eol:¬

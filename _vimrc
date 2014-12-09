@@ -14,6 +14,9 @@ nmap <F1> <Esc>
 " incremental search
 set incsearch
 
+" Y to act like D and C
+nnoremap Y y$
+
 " Make backspace behave in a sane manner.
 set backspace=indent,eol,start
 
@@ -24,7 +27,7 @@ set hidden
 set nostartofline
 
 " better leader
-let mapleader = ","
+let mapleader = "\<Space>"
 
 " Switch syntax highlighting on
 syntax on
@@ -168,6 +171,7 @@ autocmd FileType vim setlocal expandtab shiftwidth=2 tabstop=8 softtabstop=2
 autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2 formatoptions-=ro
 let javascript_enable_domhtmlcss=1
 
+set wildmode=longest,list
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.svg,*.svgz,*.pdf,*.xlsx,*.xls,.DS_Store,*/tinymce/*,*.png
 set wildignore+=*.jpg,*.gif,*/static/components/*,*/node_modules/*,*/WEB-INF/railo/*,*.doc,*.docx
 

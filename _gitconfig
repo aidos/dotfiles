@@ -3,8 +3,13 @@
 	email = aidankane@gmail.com
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lg-ref = log --graph --simplify-by-decoration --pretty=format:'%d' --all
 	s = status -s
 [color]
 	branch = auto
 	diff = auto
 	status = auto
+[push]
+	default = simple
+[merge]
+	conflictstyle = diff3

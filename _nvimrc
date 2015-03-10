@@ -1,0 +1,125 @@
+
+call plug#begin('~/.nvim/plugged')
+
+Plug 'tpope/vim-sensible'
+Plug 'kien/ctrlp.vim'
+Plug 'flazz/vim-colorschemes'
+Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-commentary'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'alvan/vim-closetag'
+
+call plug#end()
+
+" force sensible to run early so we can override some of the things is does
+runtime plugin/sensible.vim
+
+
+
+" make vim nicer, generally
+" -------------------------
+
+" no help, please
+nmap <F1> <Esc>
+
+" stop vim putting tmp files all over the place
+set backupdir=~/.nvim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.nvim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+
+" Y to act like D and C
+nnoremap Y y$
+
+" allow switching buffers without saving
+set hidden
+
+" don't jump to the start of the line when switching buffers
+set nostartofline
+
+" remember last position in file
+au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
+
+" up and down sane when on word wrapped lines
+nnoremap j gj
+nnoremap k gk
+
+" window navigation
+map <C-H> <C-W>h
+map <C-J> <C-W>j
+map <C-K> <C-W>k
+map <C-L> <C-W>l
+
+" emacs remapping for normal mode commands
+cnoremap <C-a>  <Home>
+cnoremap <C-b>  <Left>
+cnoremap <C-f>  <Right>
+cnoremap <C-d>  <Delete>
+cnoremap <M-b>  <S-Left>
+cnoremap <M-f>  <S-Right>
+cnoremap <M-d>  <S-right><Delete>
+cnoremap <Esc>b <S-Left>
+cnoremap <Esc>f <S-Right>
+cnoremap <Esc>d <S-right><Delete>
+cnoremap <C-g>  <C-c>
+
+" NeoVim escaping issues due to using timing to determine escape codes
+set ttimeout
+set ttimeoutlen=0
+
+" files we dont really want to open generally
+set wildmode=longest,list
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.pdf,*.xlsx,*.xls,.DS_Store,*/tinymce/*,*.png
+set wildignore+=*.jpg,*.gif,*/static/components/*,*/node_modules/*,*/WEB-INF/railo/*,*.doc,*.docx
+
+set scrolloff=8         "Start scrolling when we're 8 lines away from margins
+set sidescrolloff=15
+set sidescroll=1
+
+
+
+" visual changes
+" --------------
+
+colorscheme monokain
+
+highlight Normal ctermbg=Black ctermfg=White guifg=White guibg=Black
+
+" insert cursor as a bar
+" let &t_SI = "\<Esc>]50;CursorShape=1\x07"
+" let &t_EI = "\<Esc>]50;CursorShape=0\x07"
+let &t_SI = "\<Esc>[6 q"
+let &t_EI = "\<Esc>[1 q"
+
+" Use the same symbols as TextMate for tabstops and EOLs
+set listchars=tab:▸\ ,eol:¬
+
+" Invisible character colors
+highlight NonText guifg=#4a4a59
+highlight SpecialKey guifg=#4a4a59
+
+
+
+" my behavioural tweaks
+" ---------------------
+
+" easier esc from insert
+imap jj <Esc>
+
+" better leader
+let mapleader = "\<Space>"
+
+" shortcut for Ack
+map <leader>f :Ack -Q<Space>
+" easily get in and out of paste mode
+map <leader>p :set paste!<CR>
+" simple search and replace
+map <leader>s :%s///g<Left><Left><Left>
+
+" ack support
+let g:ackprg="ack-grep -H --nocolor --nogroup --column --ignore-file=ext:svg --ignore-file=ext:svgz"
+
+" allows us to set project folders for ctrlp
+let g:ctrlp_root_markers = ['.project'] 
+" ignore svg files in ctrlp (can't do it with wild ignore because then :e is shit)
+" TODO this isn't quite right - it's not honouring end of filename
+let g:ctrlp_custom_ignore = '\.svg\|\.svgz'
+

@@ -19,3 +19,5 @@ curl -fLo ~/.nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.
 vim
 # execute :PlugInstall
 
+# put into .bashrc
+# export NVIM_TUI_ENABLE_CURSOR_SHAPE=1

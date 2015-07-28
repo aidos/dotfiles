@@ -22,6 +22,9 @@ runtime plugin/sensible.vim
 " no help, please
 nmap <F1> <Esc>
 
+" who enabled the mouse?!
+set mouse=
+
 " stop vim putting tmp files all over the place
 set backupdir=~/.nvim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 set directory=~/.nvim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp

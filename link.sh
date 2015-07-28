@@ -11,3 +11,5 @@ ln -s ~/.dotfiles/_ackrc ~/.ackrc
 ln -s ~/.dotfiles/_gitconfig ~/.gitconfig
 ln -s ~/.dotfiles/_inputrc ~/.inputrc
 
+mkdir ~/.pip
+ln -s ~/.dotfiles/pip.conf ~/.pip/

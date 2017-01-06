@@ -16,6 +16,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'ivalkeen/vim-simpledb'
 Plug 'tpope/vim-vinegar'
+Plug 'bronson/vim-trailing-whitespace'
 
 call plug#end()
 

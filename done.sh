@@ -24,9 +24,7 @@ sudo dpkg-reconfigure locales
 
 git clone git@github.com:aidos/dotfiles.git .dotfiles
 cd .dotfile
-git submodule init
-git submodule update
-~/.dotfiles/link.sh 
+~/.dotfiles/link.sh
 
 sudo easy_install virtualenv
 sudo easy_install pip

@@ -7,3 +7,4 @@ ln -s ~/.dotfiles/_config/inkscape ~/.config/inkscape
 ln -s ~/.dotfiles/_ackrc ~/.ackrc
 ln -s ~/.dotfiles/_gitconfig ~/.gitconfig
 ln -s ~/.dotfiles/_inputrc ~/.inputrc
+ln -s ~/.dotfiles/_tmux.conf ~/.tmux.conf

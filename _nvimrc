@@ -14,7 +14,7 @@ Plug 'xsbeats/vim-blade'
 Plug 'godlygeek/tabular'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'ivalkeen/vim-simpledb'
+Plug 'aidos/vim-simpledb'
 Plug 'tpope/vim-vinegar'
 Plug 'jorgengz/minivimc'
 Plug 'bronson/vim-trailing-whitespace'
@@ -102,8 +102,8 @@ colorscheme monokain
 highlight Normal ctermbg=Black ctermfg=White guifg=White guibg=Black
 
 " insert cursor as a bar
-" let &t_SI = "\<Esc>]50;CursorShape=1\x07"
-" let &t_EI = "\<Esc>]50;CursorShape=0\x07"
+"let &t_SI = "\<Esc>]50;CursorShape=1\x07"
+"let &t_EI = "\<Esc>]50;CursorShape=0\x07"
 let &t_SI = "\<Esc>[6 q"
 let &t_EI = "\<Esc>[1 q"
 
@@ -154,15 +154,19 @@ endif
 
 
 " allows us to set project folders for ctrlp
-let g:ctrlp_root_markers = ['.project'] 
+let g:ctrlp_root_markers = ['.project']
 " ignore svg files in ctrlp (can't do it with wild ignore because then :e is shit)
 " TODO this isn't quite right - it's not honouring end of filename
 let g:ctrlp_custom_ignore = 'node_modules\|\.svg\|\.svgz|\.pdf'
 
 
+" simpledb keybindings are too aggressive - switch to just single query
+let g:simpledb_use_default_keybindings = 0
+autocmd FileType sql nnoremap <buffer> <leader><enter> m':'{,'}SimpleDBExecuteSql<cr>g`'
+
 
 " special syntax rules
-autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako,javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako,javascript setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType php setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType sql setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType cf,cfm,cfc setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2

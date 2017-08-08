@@ -18,6 +18,8 @@ Plug 'aidos/vim-simpledb'
 Plug 'tpope/vim-vinegar'
 Plug 'jorgengz/minivimc'
 Plug 'bronson/vim-trailing-whitespace'
+Plug 'fleischie/vim-styled-components'
+Plug 'hail2u/vim-css3-syntax'
 
 call plug#end()
 
@@ -160,6 +162,7 @@ let g:ctrlp_custom_ignore = 'node_modules\|\.svg\|\.svgz|\.pdf'
 
 " simpledb keybindings are too aggressive - switch to just single query
 let g:simpledb_use_default_keybindings = 0
+let g:simpledb_show_timing = 0
 autocmd FileType sql nnoremap <buffer> <leader><enter> m':'{,'}SimpleDBExecuteSql<cr>g`'
 
 

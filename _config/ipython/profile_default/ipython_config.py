@@ -6,7 +6,7 @@ c.InteractiveShellApp.extensions = ['autoreload']
 
 c.TerminalInteractiveShell.autoindent = False
 
-c.TerminalInteractiveShell.editing_mode = 'vi'
+# c.TerminalInteractiveShell.editing_mode = 'vi'
 
 c.InteractiveShell.colors='linux'
 

@@ -13,13 +13,16 @@ Plug 'StanAngeloff/php.vim'
 Plug 'xsbeats/vim-blade'
 Plug 'godlygeek/tabular'
 Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+" Plug 'mxw/vim-jsx'
 Plug 'aidos/vim-simpledb'
 Plug 'tpope/vim-vinegar'
 Plug 'jorgengz/minivimc'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'fleischie/vim-styled-components'
 Plug 'hail2u/vim-css3-syntax'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
+
 
 call plug#end()
 
@@ -125,11 +128,12 @@ imap jj <Esc>
 " better leader
 let mapleader = "\<Space>"
 
-" shortcut for Ack - now trying out ag
-"map <leader>f :Ack -Q<Space>
+" shortcut for Ag search
 map <leader>f :Ag! --ignore=*.svg --ignore=*.svgz --ignore=*.pdf<Space>
+
 " easily get in and out of paste mode
 map <leader>p :set paste!<CR>
+
 " simple search and replace
 map <leader>s :%s///g<Left><Left><Left>
 
@@ -137,14 +141,11 @@ map <leader>s :%s///g<Left><Left><Left>
 nmap - -
 nmap <leader>- <Plug>VinegarUp
 
-" ack support
-" let g:ackprg="ack-grep -H --nocolor --nogroup --column --ignore-file=ext:svg --ignore-file=ext:svgz"
-
 if executable('ag')
   " Use ag over grep
   "set grepprg=ag\ --nogroup\ --nocolor
 
-  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore (*cough*, kinda)
   " let g:ctrlp_user_command = ['.git', 'ag %s -l --nocolor -g ""']
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
@@ -165,9 +166,10 @@ let g:simpledb_use_default_keybindings = 0
 let g:simpledb_show_timing = 0
 autocmd FileType sql nnoremap <buffer> <leader><enter> m':'{,'}SimpleDBExecuteSql<cr>g`'
 
-
 " special syntax rules
+autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
 autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako,javascript setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
+autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType php setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType sql setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType cf,cfm,cfc setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2

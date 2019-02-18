@@ -13,15 +13,15 @@ Plug 'StanAngeloff/php.vim'
 Plug 'xsbeats/vim-blade'
 Plug 'godlygeek/tabular'
 Plug 'pangloss/vim-javascript'
-" Plug 'mxw/vim-jsx'
 Plug 'aidos/vim-simpledb'
 Plug 'tpope/vim-vinegar'
 Plug 'jorgengz/minivimc'
 Plug 'bronson/vim-trailing-whitespace'
-Plug 'fleischie/vim-styled-components'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'hail2u/vim-css3-syntax'
 Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
+Plug 'MaxMEllon/vim-jsx-pretty'
+" Plug 'peitalin/vim-jsx-typescript'
 
 
 call plug#end()
@@ -168,8 +168,7 @@ autocmd FileType sql nnoremap <buffer> <leader><enter> m':'{,'}SimpleDBExecuteSq
 
 " special syntax rules
 autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
-autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako,javascript setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
-autocmd FileType javascript setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako,javascript,typescript,css setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType php setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType sql setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType cf,cfm,cfc setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2

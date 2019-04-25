@@ -2,7 +2,6 @@
 
 ln -s ~/.dotfiles/_config/ipython ~/.ipython
 mkdir -p ~/.config
-ln -s ~/.dotfiles/_config/inkscape ~/.config/inkscape
 mkdir -p ~/.ssh
 ln -s ~/.dotfiles/_ssh/rc ~/.ssh/rc
 

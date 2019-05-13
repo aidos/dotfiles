@@ -128,8 +128,6 @@ imap jj <Esc>
 " better leader
 let mapleader = "\<Space>"
 
-" shortcut for Ag search
-map <leader>f :Ag! --ignore=*.svg --ignore=*.svgz --ignore=*.pdf<Space>
 
 " easily get in and out of paste mode
 map <leader>p :set paste!<CR>
@@ -141,18 +139,22 @@ map <leader>s :%s///g<Left><Left><Left>
 nmap - -
 nmap <leader>- <Plug>VinegarUp
 
+
+" shortcut for Ag search:
+"   f : search within current pwd directory
+"   F : search within current git repo
+map <leader>f :AgFromHere<Space>
+map <leader>F :AgFromGit<Space>
+function! Find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+command! -nargs=1 AgFromHere execute "Ag! --ignore=*.svg --ignore=*.svgz --ignore=*.pdf <args>"
+command! -nargs=1 AgFromGit execute "Ag! --ignore=*.svg --ignore=*.svgz --ignore=*.pdf <args> " . Find_git_root()
+
 if executable('ag')
-  " Use ag over grep
-  "set grepprg=ag\ --nogroup\ --nocolor
-
   " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore (*cough*, kinda)
-  " let g:ctrlp_user_command = ['.git', 'ag %s -l --nocolor -g ""']
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-  " search from git root
-  let g:ag_working_path_mode = "r"
 endif
-
 
 " allows us to set project folders for ctrlp
 let g:ctrlp_root_markers = ['.project']

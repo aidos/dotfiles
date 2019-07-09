@@ -1,7 +1,12 @@
 #!/bin/bash
 
-# Fix SSH auth socket location so agent forwarding works with screen.
-if test "$SSH_AUTH_SOCK" ; then
+# Fix SSH auth socket location so agent forwarding works with tmux
+#
+# We do this by having a file at a location known to tmux (~/.tmux.conf) pointing to an alive ssh agent socket
+#
+# Note: don't update if the old one is still alive to better handle when you temporarily
+# connect another ssh and then kill it again (which is a common use case)
+if [ ! -S ~/.ssh/ssh_auth_sock ] && [ -S "$SSH_AUTH_SOCK" ]; then
     ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
 fi
 

@@ -20,10 +20,11 @@ Plug 'bronson/vim-trailing-whitespace'
 Plug 'scrooloose/nerdtree'
 Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 Plug 'StanAngeloff/php.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+"Plug 'pangloss/vim-javascript'
+Plug 'HerringtonDarkholme/yats.vim'
+"Plug 'leafgarland/typescript-vim'
+"Plug 'MaxMEllon/vim-jsx-pretty'
+"Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 Plug 'hail2u/vim-css3-syntax'
 Plug 'jparise/vim-graphql'
 
@@ -173,8 +174,7 @@ let g:simpledb_show_timing = 0
 autocmd FileType sql nnoremap <buffer> <leader><enter> m':'{,'}SimpleDBExecuteSql<cr>g`'
 
 " special syntax rules
-autocmd BufNewFile,BufRead *.tsx,*.jsx set filetype=typescript.tsx
-autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako,javascript,typescript,css setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType html,xhtml,xml,htmldjango,htmljinja,eruby,mako,javascript,typescript,typescriptreact,css setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType php setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType sql setlocal expandtab shiftwidth=4 tabstop=4 softtabstop=4
 autocmd FileType cf,cfm,cfc setlocal expandtab shiftwidth=2 tabstop=2 softtabstop=2

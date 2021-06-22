@@ -18,7 +18,7 @@ Plug 'tpope/vim-vinegar'
 Plug 'jorgengz/minivimc'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'scrooloose/nerdtree'
-Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'StanAngeloff/php.vim'
 "Plug 'pangloss/vim-javascript'
 Plug 'HerringtonDarkholme/yats.vim'

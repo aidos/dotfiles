@@ -2,7 +2,7 @@
 -- github.com/ojroques
 
 -------------------- HELPERS -------------------------------
-local api, cmd, g = vim.api, vim.cmd, vim.fn, vim.g
+local api, cmd, g = vim.api, vim.cmd, vim.g
 local opt, wo = vim.opt, vim.wo
 local fmt = string.format
 
@@ -184,7 +184,7 @@ require('telescope').setup {
             '--smart-case'
         },
         file_sorter = require('telescope.sorters').get_fzy_sorter,
-        prompt_prefix = ' >',
+        prompt_prefix = ' > ',
         color_devicons = true,
 
         file_previewer   = require('telescope.previewers').vim_buffer_cat.new,
@@ -334,4 +334,10 @@ vim.lsp.handlers["textDocument/signatureHelp"] =
     border = "single"
   }
 )
+
+vim.api.nvim_command([[
+augroup AutoCompileLatex
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
+augroup END
+]])
 

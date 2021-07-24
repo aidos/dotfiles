@@ -22,4 +22,6 @@
 [difftool "vimdiff"]
 	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [rerere]
-       enabled = true
+	enabled = true
+[rebase]
+	instructionFormat = (%an <%ae>) %s

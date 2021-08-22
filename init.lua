@@ -1,10 +1,9 @@
+
 -- neovim config
--- github.com/ojroques
 
 -------------------- HELPERS -------------------------------
 local api, cmd, g = vim.api, vim.cmd, vim.g
-local opt, wo = vim.opt, vim.wo
-local fmt = string.format
+local opt = vim.opt
 
 local function map(mode, lhs, rhs, opts)
   local options = {noremap = true}
@@ -20,6 +19,7 @@ paq {'norcalli/nvim-colorizer.lua'}
 paq {'neovim/nvim-lspconfig'}
 paq {'kabouzeid/nvim-lspinstall'}
 paq {'nvim-treesitter/nvim-treesitter'}
+paq {'nvim-treesitter/playground'}
 paq {'nvim-treesitter/nvim-treesitter-textobjects'}
 paq {'savq/paq-nvim', opt = true}
 paq {'hrsh7th/nvim-compe'}
@@ -29,16 +29,10 @@ paq {'nvim-telescope/telescope.nvim', run='git submodule update --init --recursi
 paq {'nvim-telescope/telescope-fzf-native.nvim', run='make'}
 paq {'folke/trouble.nvim'}
 paq {'kyazdani42/nvim-web-devicons'}
--- paq {'airblade/vim-gitgutter'}
--- paq {'airblade/vim-rooter'}
--- paq {'ojroques/nvim-bufbar'}
--- paq {'ojroques/nvim-bufdel'}
--- paq {'ojroques/nvim-buildme'}
--- paq {'ojroques/nvim-hardline'}
--- paq {'ojroques/vim-oscyank'}
--- paq {'tpope/vim-commentary'}
--- paq {'tpope/vim-fugitive'}
--- paq {'tpope/vim-unimpaired'}
+paq {'tpope/vim-commentary'}
+paq {'mg979/vim-visual-multi'}
+paq {'aidos/vim-simpledb'}
+paq {'ntpeters/vim-better-whitespace'}
 
 -------------------- PLUGIN SETUP --------------------------
 g.mapleader = " "
@@ -246,10 +240,32 @@ require('nvim-treesitter.configs').setup {
         ['[c'] = '@class.outer',
       },
     },
+    peek_definition_code = {
+      ["df"] = "@function.outer",
+      ["dF"] = "@class.outer",
+    },
+  },
+  playground = {
+    enable = true,
+    disable = {},
+    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    persist_queries = false, -- Whether the query persists across vim sessions
+    keybindings = {
+      toggle_query_editor = 'o',
+      toggle_hl_groups = 'i',
+      toggle_injected_languages = 't',
+      toggle_anonymous_nodes = 'a',
+      toggle_language_display = 'I',
+      focus_language = 'f',
+      unfocus_language = 'F',
+      update = 'R',
+      goto_node = '<cr>',
+      show_help = '?',
+    },
   },
 }
 
--- -------------------- COMPLETION ------------------------------
+----------------------- COMPLETION ------------------------------
 require'compe'.setup {
   enabled = true,
   autocomplete = true,

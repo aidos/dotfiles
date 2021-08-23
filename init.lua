@@ -14,25 +14,25 @@ end
 -------------------- PLUGINS -------------------------------
 cmd 'packadd paq-nvim'
 local paq = require('paq-nvim').paq
-paq {'dracula/vim'}
-paq {'norcalli/nvim-colorizer.lua'}
-paq {'neovim/nvim-lspconfig'}
-paq {'kabouzeid/nvim-lspinstall'}
-paq {'nvim-treesitter/nvim-treesitter'}
-paq {'nvim-treesitter/playground'}
-paq {'nvim-treesitter/nvim-treesitter-textobjects'}
-paq {'savq/paq-nvim', opt = true}
-paq {'hrsh7th/nvim-compe'}
-paq {'nvim-lua/popup.nvim'}
-paq {'nvim-lua/plenary.nvim'}
-paq {'nvim-telescope/telescope.nvim', run='git submodule update --init --recursive'}
-paq {'nvim-telescope/telescope-fzf-native.nvim', run='make'}
-paq {'folke/trouble.nvim'}
-paq {'kyazdani42/nvim-web-devicons'}
-paq {'tpope/vim-commentary'}
-paq {'mg979/vim-visual-multi'}
-paq {'aidos/vim-simpledb'}
-paq {'ntpeters/vim-better-whitespace'}
+paq { 'dracula/vim' }
+paq { 'norcalli/nvim-colorizer.lua' }
+paq { 'neovim/nvim-lspconfig' }
+paq { 'kabouzeid/nvim-lspinstall' }
+paq { 'nvim-treesitter/nvim-treesitter' }
+paq { 'nvim-treesitter/playground' }
+paq { 'nvim-treesitter/nvim-treesitter-textobjects' }
+paq { 'savq/paq-nvim', opt = true }
+paq { 'hrsh7th/nvim-compe' }
+paq { 'nvim-lua/popup.nvim' }
+paq { 'nvim-lua/plenary.nvim' }
+paq { 'nvim-telescope/telescope.nvim', run='git submodule update --init --recursive' }
+paq { 'nvim-telescope/telescope-fzf-native.nvim', run='make' }
+paq { 'folke/trouble.nvim' }
+paq { 'kyazdani42/nvim-web-devicons' }
+paq { 'tpope/vim-commentary' }
+paq { 'mg979/vim-visual-multi' }
+paq { 'aidos/vim-simpledb' }
+paq { 'ntpeters/vim-better-whitespace' }
 
 -------------------- PLUGIN SETUP --------------------------
 g.mapleader = " "
@@ -119,11 +119,6 @@ map('n', '<C-l>', '<C-w>l')
 map('n', '<leader>s', ':%s//gcI<Left><Left><Left><Left>')
 map('v', '<leader>s', ':s//gcI<Left><Left><Left><Left>')
 
--- settings I might want
---" Invisible character colors
---highlight NonText guifg=#4a4a59
---highlight SpecialKey guifg=#4a4a59
-
 -------------------- TEXT OBJECTS --------------------------
 -- for _, ch in ipairs({
 --   '<space>', '!', '#', '$', '%', '&', '*', '+', ',', '-', '.',
@@ -140,14 +135,14 @@ local lsp = require('lspconfig')
 --vim.lsp.set_log_level("debug")
 require'lspinstall'.setup()
 for ls, cfg in pairs({
-  bashls = {},
-  ccls = {},
-  jsonls = {},
+  bash = {},
+  json = {},
   lua = {},
-  pyright = {},
-  tsserver = {},
+  python = {},
+  typescript = {},
   tailwindcss = {},
 }) do lsp[ls].setup(cfg) end
+
 
 -- map('n', '<space>,', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
 -- map('n', '<space>;', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
@@ -335,22 +330,11 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
-vim.lsp.handlers["textDocument/hover"] =
-  vim.lsp.with(
-  vim.lsp.handlers.hover,
-  {
-    border = "single"
-  }
-)
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with( vim.lsp.handlers.hover, { border = "single" })
 
-vim.lsp.handlers["textDocument/signatureHelp"] =
-  vim.lsp.with(
-  vim.lsp.handlers.signature_help,
-  {
-    border = "single"
-  }
-)
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with( vim.lsp.handlers.signature_help, { border = "single" })
 
+-- restore previous cursor location when opening files
 vim.api.nvim_command([[
 augroup AutoCompileLatex
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif

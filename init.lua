@@ -2,6 +2,7 @@
 -- neovim config
 
 -------------------- HELPERS -------------------------------
+--local vim = require'vim'
 local api, cmd, g = vim.api, vim.cmd, vim.g
 local opt = vim.opt
 
@@ -136,6 +137,7 @@ local lsp = require('lspconfig')
 require'lspinstall'.setup()
 for ls, cfg in pairs({
   bash = {},
+  diagnosticls = {},
   json = {},
   lua = {},
   python = {},
@@ -309,29 +311,18 @@ map('n', '<leader>xq', '<cmd>Trouble quickfix<cr>')
 map('n', '<leader>xl', '<cmd>Trouble loclist<cr>')
 map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
 
+-- nicer icons
 require'nvim-web-devicons'.setup {
--- -- your personnal icons can go here (to override)
--- -- DevIcon will be appended to `name`
--- override = {
---  zsh = {
---    icon = "",
---    color = "#428850",
---    name = "Zsh"
---  }
--- };
- -- globally enable default icons (default to false)
- -- will get overriden by `get_icons` option
  default = true;
 }
-
 local signs = { Error = " ", Warning = " ", Hint = " ", Information = " " }
 for type, icon in pairs(signs) do
   local hl = "LspDiagnosticsSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
+-- more borders
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with( vim.lsp.handlers.hover, { border = "single" })
-
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with( vim.lsp.handlers.signature_help, { border = "single" })
 
 -- restore previous cursor location when opening files

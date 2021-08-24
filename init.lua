@@ -137,7 +137,6 @@ local lsp = require('lspconfig')
 require'lspinstall'.setup()
 for ls, cfg in pairs({
   bash = {},
-  diagnosticls = {},
   json = {},
   lua = {},
   python = {},

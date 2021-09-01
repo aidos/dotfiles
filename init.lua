@@ -1,7 +1,9 @@
 
 -- neovim config
 
+
 -------------------- HELPERS -------------------------------
+
 --local vim = require'vim'
 local api, cmd, g = vim.api, vim.cmd, vim.g
 local opt = vim.opt
@@ -12,48 +14,40 @@ local function map(mode, lhs, rhs, opts)
   api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
+
 -------------------- PLUGINS -------------------------------
+
 cmd 'packadd paq-nvim'
 local paq = require('paq-nvim').paq
+paq { 'savq/paq-nvim', opt = true }
+
 paq { 'dracula/vim' }
+paq { 'kyazdani42/nvim-web-devicons' }
 paq { 'norcalli/nvim-colorizer.lua' }
+paq { 'nvim-lua/popup.nvim' }
+
 paq { 'neovim/nvim-lspconfig' }
 paq { 'kabouzeid/nvim-lspinstall' }
 paq { 'nvim-treesitter/nvim-treesitter' }
 paq { 'nvim-treesitter/playground' }
 paq { 'nvim-treesitter/nvim-treesitter-textobjects' }
-paq { 'savq/paq-nvim', opt = true }
+
 paq { 'hrsh7th/nvim-compe' }
-paq { 'nvim-lua/popup.nvim' }
 paq { 'nvim-lua/plenary.nvim' }
 paq { 'nvim-telescope/telescope.nvim', run='git submodule update --init --recursive' }
 paq { 'nvim-telescope/telescope-fzf-native.nvim', run='make' }
 paq { 'folke/trouble.nvim' }
-paq { 'kyazdani42/nvim-web-devicons' }
+
 paq { 'tpope/vim-commentary' }
 paq { 'mg979/vim-visual-multi' }
-paq { 'aidos/vim-simpledb' }
 paq { 'ntpeters/vim-better-whitespace' }
+paq { 'aidos/vim-simpledb' }
+paq { 'tpope/vim-fugitive' }
+paq { 'pwntester/octo.nvim' }
 
--------------------- PLUGIN SETUP --------------------------
-g.mapleader = " "
-
--- telescope
-map('n', '<leader>ff', '<cmd>Telescope find_files<CR>')
-map('n', '<leader>fg', '<cmd>Telescope live_grep<CR>')
-map('n', '<leader>fw', '<cmd>Telescope grep_string<CR>')
-map('n', '<leader>fb', '<cmd>Telescope buffers<CR>')
-map('n', '<leader>ft', '<cmd>Telescope builtin<CR>')
-map('n', '<leader>fq', '<cmd>Telescope quickfix<CR>')
-
----- fugitive and git
---local log = [[\%C(yellow)\%h\%Cred\%d \%Creset\%s \%Cgreen(\%ar) \%Cblue\%an\%Creset]]
----- map('n', '<leader>g<space>', ':Git ')
----- map('n', '<leader>gd', '<cmd>Gvdiffsplit<CR>')
----- map('n', '<leader>gg', '<cmd>Git<CR>')
----- map('n', '<leader>gl', fmt('<cmd>term git log --graph --all --format="%s"<CR><cmd>start<CR>', log))
 
 -------------------- OPTIONS -------------------------------
+
 local indent, width = 2, 80
 cmd 'colorscheme dracula'
 
@@ -81,22 +75,24 @@ opt.tabstop = indent                -- Number of spaces tabs count for
 opt.termguicolors = true            -- True color support
 opt.textwidth = width               -- Maximum width of text
 opt.updatetime = 100                -- Delay before swap file is saved
-opt.wildmode = {'list', 'longest'}  -- Command-line completion mode
+opt.wildmode = {'longest:full'}     -- Command-line completion mode
 opt.wrap = false                    -- Disable line wrap
 opt.hlsearch = false                -- Don't highlight search results
 
+
 -------------------- MAPPINGS ------------------------------
+
+g.mapleader = " "
+
 -- copy / paste
-map('', '<leader>c', '"+y')
+map('n', '<leader>c', '"+y')
 map('n', '<leader>v', '"+p')
---map('i', '<C-u>', '<C-g>u<C-u>')
---map('i', '<C-w>', '<C-g>u<C-w>')
+
+-- tab / shift-tab to move through completes
 map('i', '<S-Tab>', 'pumvisible() ? "\\<C-p>" : "\\<S-Tab>"', {expr = true})
 map('i', '<Tab>', 'pumvisible() ? "\\<C-n>" : "\\<Tab>"', {expr = true})
+
 map('i', 'jj', '<ESC>')
-map('t', 'jj', '<ESC>', {noremap = false})
---map('n', '<C-w>T', '<cmd>tabclose<CR>')
---map('n', '<C-w>t', '<cmd>tabnew<CR>')
 -- Y to act like D and C
 map('n', 'Y', 'y$')
 -- nicer up / down on wrapped lines
@@ -108,19 +104,54 @@ map('n', 'gn', '<cmd>cn<CR>')
 map('n', 'gp', '<cmd>cp<CR>')
 
 -- window controls
-map('n', '<S-Down>', '<C-w>2-')
-map('n', '<S-Up>', '<C-w>2+')
-map('n', '<S-Left>', '<C-w>2>')
-map('n', '<S-Right>', '<C-w>2<')
 map('n', '<C-h>', '<C-w>h')
 map('n', '<C-j>', '<C-w>j')
 map('n', '<C-k>', '<C-w>k')
 map('n', '<C-l>', '<C-w>l')
 
+-- shortcut search and replace
 map('n', '<leader>s', ':%s//gcI<Left><Left><Left><Left>')
 map('v', '<leader>s', ':s//gcI<Left><Left><Left><Left>')
 
--------------------- TEXT OBJECTS --------------------------
+-- better search in command history
+map('c', '<C-n>', 'wildmenumode() ? "\\<c-n>" : "\\<down>"', {expr = true})
+map('c', '<C-p>', 'wildmenumode() ? "\\<c-p>" : "\\<up>"', {expr = true})
+
+-- telescope
+map('n', '<leader>ff', '<cmd>Telescope find_files<CR>')
+map('n', '<leader>fg', '<cmd>Telescope live_grep<CR>')
+map('n', '<leader>fw', '<cmd>Telescope grep_string<CR>')
+map('n', '<leader>fb', '<cmd>Telescope buffers<CR>')
+map('n', '<leader>ft', '<cmd>Telescope builtin<CR>')
+map('n', '<leader>fq', '<cmd>Telescope quickfix<CR>')
+
+---- fugitive and git
+local log = [[\%C(yellow)\%h\%Cred\%d \%Creset\%s \%Cgreen(\%ar) \%Cblue\%an\%Creset]]
+map('n', '<leader>g<space>', ':Git ')
+map('n', '<leader>gd', '<cmd>Gvdiffsplit<CR>')
+map('n', '<leader>gg', '<cmd>Git<CR>')
+map('n', '<leader>gl', string.format('<cmd>term git log --graph --all --format="%s"<CR><cmd>start<CR>', log))
+
+-- lsp
+map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
+map('n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
+map('n', 'F', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
+map('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = "single"})<CR>')
+map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
+--map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+--map('n', 'gs', '<cmd>Telescope lsp_document_symbols<CR>')
+
+-- trouble
+map('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
+map('n', '<leader>xw', '<cmd>Trouble lsp_workspace_diagnostics<cr>')
+map('n', '<leader>xd', '<cmd>Trouble lsp_document_diagnostics<cr>')
+map('n', '<leader>xq', '<cmd>Trouble quickfix<cr>')
+map('n', '<leader>xl', '<cmd>Trouble loclist<cr>')
+map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
+
+
+-- text objects
 -- for _, ch in ipairs({
 --   '<space>', '!', '#', '$', '%', '&', '*', '+', ',', '-', '.',
 --   '/', ':', ';', '=', '?', '@', '<bslash>', '^', '_', '~', '<bar>',
@@ -131,7 +162,15 @@ map('v', '<leader>s', ':s//gcI<Left><Left><Left><Left>')
 --   map('o', fmt('a%s', ch), fmt(':<C-u>normal va%s<CR>', ch), {silent = true})
 -- end
 
--------------------- LSP -----------------------------------
+
+
+-------------------- PLUGIN SETUP --------------------------
+
+-- octo / github
+require"octo".setup()
+
+--
+-- lsp
 local lsp = require('lspconfig')
 --vim.lsp.set_log_level("debug")
 require'lspinstall'.setup()
@@ -145,19 +184,11 @@ for ls, cfg in pairs({
 }) do lsp[ls].setup(cfg) end
 
 
--- map('n', '<space>,', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>')
--- map('n', '<space>;', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>')
-map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
-map('n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
---map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
-map('n', 'F', '<cmd>lua vim.lsp.buf.formatting()<CR>')
-map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-map('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = "single"})<CR>')
-map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
---map('n', '<leader>s', '<cmd>lua vim.lsp.buf.document_symbol()<CR>')
+-- trouble
+require'trouble'.setup{ }
 
 
--------------------- TELESCOPE -----------------------------
+-- telescope
 local actions = require('telescope.actions')
 local trouble = require("trouble.providers.telescope")
 require('telescope').setup {
@@ -204,7 +235,7 @@ require('telescope').setup {
 require('telescope').load_extension('fzf')
 
 
--------------------- TREE-SITTER ---------------------------
+-- tree-sitter
 require('nvim-treesitter.configs').setup {
   ensure_installed = 'maintained',
   highlight = {enable = true},
@@ -261,7 +292,7 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
------------------------ COMPLETION ------------------------------
+-- completion
 require'compe'.setup {
   enabled = true,
   autocomplete = true,
@@ -289,6 +320,7 @@ require'compe'.setup {
   },
 }
 
+-- colors
 require'colorizer'.setup({'*'},
   {
     RGB      = true;         -- #RGB hex codes
@@ -302,15 +334,7 @@ require'colorizer'.setup({'*'},
   }
 )
 
-require'trouble'.setup{ }
-map('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
-map('n', '<leader>xw', '<cmd>Trouble lsp_workspace_diagnostics<cr>')
-map('n', '<leader>xd', '<cmd>Trouble lsp_document_diagnostics<cr>')
-map('n', '<leader>xq', '<cmd>Trouble quickfix<cr>')
-map('n', '<leader>xl', '<cmd>Trouble loclist<cr>')
-map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
-
--- nicer icons
+-- icons
 require'nvim-web-devicons'.setup {
  default = true;
 }
@@ -320,7 +344,10 @@ for type, icon in pairs(signs) do
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
--- more borders
+
+----------------------- UI HACKS ------------------------------
+
+-- borders on popups
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with( vim.lsp.handlers.hover, { border = "single" })
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with( vim.lsp.handlers.signature_help, { border = "single" })
 

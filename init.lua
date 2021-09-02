@@ -25,25 +25,32 @@ paq { 'dracula/vim' }
 paq { 'kyazdani42/nvim-web-devicons' }
 paq { 'norcalli/nvim-colorizer.lua' }
 paq { 'nvim-lua/popup.nvim' }
+paq { 'ntpeters/vim-better-whitespace' }
+paq { 'p00f/nvim-ts-rainbow' }
 
 paq { 'neovim/nvim-lspconfig' }
 paq { 'kabouzeid/nvim-lspinstall' }
 paq { 'nvim-treesitter/nvim-treesitter' }
 paq { 'nvim-treesitter/playground' }
 paq { 'nvim-treesitter/nvim-treesitter-textobjects' }
+paq { 'RRethy/nvim-treesitter-textsubjects' }
 
 paq { 'hrsh7th/nvim-compe' }
+paq { 'windwp/nvim-autopairs' }
+paq { 'windwp/nvim-ts-autotag' }
+paq { 'tpope/vim-commentary' }
+paq { 'JoosepAlviste/nvim-ts-context-commentstring' }
+paq { 'mg979/vim-visual-multi' }
+
 paq { 'nvim-lua/plenary.nvim' }
 paq { 'nvim-telescope/telescope.nvim', run='git submodule update --init --recursive' }
 paq { 'nvim-telescope/telescope-fzf-native.nvim', run='make' }
 paq { 'folke/trouble.nvim' }
 
-paq { 'tpope/vim-commentary' }
-paq { 'mg979/vim-visual-multi' }
-paq { 'ntpeters/vim-better-whitespace' }
-paq { 'aidos/vim-simpledb' }
 paq { 'tpope/vim-fugitive' }
 paq { 'pwntester/octo.nvim' }
+
+paq { 'aidos/vim-simpledb' }
 
 
 -------------------- OPTIONS -------------------------------
@@ -69,6 +76,7 @@ opt.sidescrolloff = 15              -- Columns of context
 opt.signcolumn = 'yes'              -- Show sign column
 opt.smartcase = true                -- Do not ignore case with capitals
 opt.smartindent = true              -- Insert indents automatically
+opt.cindent = true                  -- Insert indents automatically
 opt.splitbelow = true               -- Put new windows below current
 opt.splitright = true               -- Put new windows right of current
 opt.tabstop = indent                -- Number of spaces tabs count for
@@ -238,7 +246,21 @@ require('telescope').load_extension('fzf')
 -- tree-sitter
 require('nvim-treesitter.configs').setup {
   ensure_installed = 'maintained',
-  highlight = {enable = true},
+
+  highlight = { enable = true },
+  autotag = { enable = true },
+  autopairs = { enable = true },
+  context_commentstring = { enable = true },
+  rainbow = { enable = true },
+
+  textsubjects = {
+    enable = true,
+    keymaps = {
+      ['.'] = 'textsubjects-smart',
+      [';'] = 'textsubjects-container-outer',
+    }
+  },
+
   textobjects = {
     select = {
       enable = true,
@@ -272,6 +294,7 @@ require('nvim-treesitter.configs').setup {
       ["dF"] = "@class.outer",
     },
   },
+
   playground = {
     enable = true,
     disable = {},
@@ -320,6 +343,16 @@ require'compe'.setup {
   },
 }
 
+require('nvim-autopairs').setup{
+  check_ts = true
+}
+require("nvim-autopairs.completion.compe").setup({
+  map_cr = true, --  map <CR> on insert mode
+  map_complete = true, -- it will auto insert `(` after select function or method item
+  auto_select = false,  -- auto select first item
+})
+
+
 -- colors
 require'colorizer'.setup({'*'},
   {
@@ -357,4 +390,16 @@ augroup AutoCompileLatex
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
 augroup END
 ]])
+
+vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics,
+  {
+    underline = true,
+    virtual_text = {
+      spacing = 5,
+      severity_limit = 'Warning',
+    },
+    update_in_insert = true,
+  }
+)
 

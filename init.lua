@@ -5,7 +5,7 @@
 -------------------- HELPERS -------------------------------
 
 --local vim = require'vim'
-local api, cmd, g = vim.api, vim.cmd, vim.g
+local api, cmd, g, lsp, fn = vim.api, vim.cmd, vim.g, vim.lsp, vim.fn
 local opt = vim.opt
 
 local function map(mode, lhs, rhs, opts)
@@ -50,6 +50,8 @@ paq { 'folke/trouble.nvim' }
 paq { 'tpope/vim-fugitive' }
 paq { 'pwntester/octo.nvim' }
 
+paq { 'kyazdani42/nvim-tree.lua' }
+
 paq { 'aidos/vim-simpledb' }
 
 
@@ -87,6 +89,9 @@ opt.wildmode = {'longest:full'}     -- Command-line completion mode
 opt.wrap = false                    -- Disable line wrap
 opt.hlsearch = false                -- Don't highlight search results
 
+--vim.wo.foldmethod = 'expr'
+--vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+
 
 -------------------- MAPPINGS ------------------------------
 
@@ -118,8 +123,8 @@ map('n', '<C-k>', '<C-w>k')
 map('n', '<C-l>', '<C-w>l')
 
 -- shortcut search and replace
-map('n', '<leader>s', ':%s//gcI<Left><Left><Left><Left>')
-map('v', '<leader>s', ':s//gcI<Left><Left><Left><Left>')
+map('n', '<leader>s', ':%s///gcI<Left><Left><Left><Left>')
+map('v', '<leader>s', ':s///gcI<Left><Left><Left><Left>')
 
 -- better search in command history
 map('c', '<C-n>', 'wildmenumode() ? "\\<c-n>" : "\\<down>"', {expr = true})
@@ -132,6 +137,9 @@ map('n', '<leader>fw', '<cmd>Telescope grep_string<CR>')
 map('n', '<leader>fb', '<cmd>Telescope buffers<CR>')
 map('n', '<leader>ft', '<cmd>Telescope builtin<CR>')
 map('n', '<leader>fq', '<cmd>Telescope quickfix<CR>')
+
+map('n', '<leader>fd', '<cmd>NvimTreeToggle<CR>')
+map('n', '<leader>fc', '<cmd>NvimTreeFindFile<CR>')
 
 ---- fugitive and git
 local log = [[\%C(yellow)\%h\%Cred\%d \%Creset\%s \%Cgreen(\%ar) \%Cblue\%an\%Creset]]
@@ -174,13 +182,15 @@ map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
 
 -------------------- PLUGIN SETUP --------------------------
 
+-- tree
+g.nvim_tree_width = 50
+
 -- octo / github
 require"octo".setup()
 
---
 -- lsp
-local lsp = require('lspconfig')
---vim.lsp.set_log_level("debug")
+local lspconfig = require('lspconfig')
+-- lsp.set_log_level("debug")
 require'lspinstall'.setup()
 for ls, cfg in pairs({
   bash = {},
@@ -188,8 +198,9 @@ for ls, cfg in pairs({
   lua = {},
   python = {},
   typescript = {},
-  tailwindcss = {},
-}) do lsp[ls].setup(cfg) end
+  java = {},
+  --tailwindcss = {},
+}) do lspconfig[ls].setup(cfg) end
 
 
 -- trouble
@@ -374,25 +385,25 @@ require'nvim-web-devicons'.setup {
 local signs = { Error = " ", Warning = " ", Hint = " ", Information = " " }
 for type, icon in pairs(signs) do
   local hl = "LspDiagnosticsSign" .. type
-  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+  fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
 end
 
 
 ----------------------- UI HACKS ------------------------------
 
 -- borders on popups
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with( vim.lsp.handlers.hover, { border = "single" })
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with( vim.lsp.handlers.signature_help, { border = "single" })
+lsp.handlers["textDocument/hover"] = lsp.with( lsp.handlers.hover, { border = "single" })
+lsp.handlers["textDocument/signatureHelp"] = lsp.with( lsp.handlers.signature_help, { border = "single" })
 
 -- restore previous cursor location when opening files
-vim.api.nvim_command([[
+api.nvim_command([[
 augroup AutoCompileLatex
   au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$") | exe "normal g'\"" | endif
 augroup END
 ]])
 
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics,
+lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(
+  lsp.diagnostic.on_publish_diagnostics,
   {
     underline = true,
     virtual_text = {

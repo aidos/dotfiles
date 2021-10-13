@@ -1,6 +1,6 @@
 [user]
 	name = Aidan Kane
-	email = aidankane@gmail.com
+	email = aidan@countfire.com
 [alias]
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 	lg-ref = log --graph --simplify-by-decoration --pretty=format:'%d' --all

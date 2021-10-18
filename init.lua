@@ -29,7 +29,7 @@ paq { 'ntpeters/vim-better-whitespace' }
 paq { 'p00f/nvim-ts-rainbow' }
 
 paq { 'neovim/nvim-lspconfig' }
-paq { 'kabouzeid/nvim-lspinstall' }
+paq { 'williamboman/nvim-lsp-installer' }
 paq { 'nvim-treesitter/nvim-treesitter' }
 paq { 'nvim-treesitter/playground' }
 paq { 'nvim-treesitter/nvim-treesitter-textobjects' }
@@ -155,7 +155,7 @@ map('n', 'F', '<cmd>lua vim.lsp.buf.formatting()<CR>')
 map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
 map('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = "single"})<CR>')
 map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
---map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 --map('n', 'gs', '<cmd>Telescope lsp_document_symbols<CR>')
 
 -- trouble
@@ -164,7 +164,7 @@ map('n', '<leader>xw', '<cmd>Trouble lsp_workspace_diagnostics<cr>')
 map('n', '<leader>xd', '<cmd>Trouble lsp_document_diagnostics<cr>')
 map('n', '<leader>xq', '<cmd>Trouble quickfix<cr>')
 map('n', '<leader>xl', '<cmd>Trouble loclist<cr>')
-map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
+--map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
 
 
 -- text objects
@@ -189,18 +189,15 @@ g.nvim_tree_width = 50
 require"octo".setup()
 
 -- lsp
-local lspconfig = require('lspconfig')
+--local lspconfig = require('lspconfig')
 -- lsp.set_log_level("debug")
-require'lspinstall'.setup()
-for ls, cfg in pairs({
-  bash = {},
-  json = {},
-  lua = {},
-  python = {},
-  typescript = {},
-  java = {},
-  --tailwindcss = {},
-}) do lspconfig[ls].setup(cfg) end
+local lsp_installer = require("nvim-lsp-installer")
+lsp_installer.on_server_ready(function(server)
+    local opts = {}
+    -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
+    server:setup(opts)
+    cmd [[ do User LspAttachBuffers ]]
+end)
 
 
 -- trouble

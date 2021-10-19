@@ -1,0 +1,59 @@
+#!/bin/bash
+
+mkdir -p ~/.config/nvim
+ln -s ~/.dotfiles/init.lua ~/.config/nvim/init.lua
+
+# ripgrep for fast af file searching
+cd
+sudo apt install git cargo
+git clone https://github.com/BurntSushi/ripgrep
+cd ripgrep && cargo build --release
+sudo cp target/release/rg /usr/local/bin/
+
+# build vim from src
+cd
+sudo apt install ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl
+git clone https://github.com/neovim/neovim.git
+cd neovim
+# git checkout stable
+make CMAKE_BUILD_TYPE=RelWithDebInfo
+sudo make install
+
+# package manager we're using
+git clone --depth=1 https://github.com/savq/paq-nvim.git "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
+
+# need lastest node / npm
+curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# gh commandlin client
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+sudo apt update
+sudo apt install gh
+
+# vi
+# :PaqInstall
+#:LspInstall eslint
+#:LspInstall bashls
+#:LspInstall jsonls
+#:LspInstall sumneko_lua
+#:LspInstall pyright
+#:LspInstall tsserver
+#:LspInstall tailwindcss
+
+# cd /root/.local/share/nvim/site/pack/paqs/start/telescope-fzf-native.nvim/
+# make
+
+CUSTOM_NVIM_PATH=/usr/local/bin/nvim
+sudo update-alternatives --install /usr/bin/ex ex "${CUSTOM_NVIM_PATH}" 110
+sudo update-alternatives --install /usr/bin/vi vi "${CUSTOM_NVIM_PATH}" 110
+sudo update-alternatives --install /usr/bin/view view "${CUSTOM_NVIM_PATH}" 110
+sudo update-alternatives --install /usr/bin/vim vim "${CUSTOM_NVIM_PATH}" 110
+sudo update-alternatives --install /usr/bin/vimdiff vimdiff "${CUSTOM_NVIM_PATH}" 110
+sudo update-alternatives --set ex "${CUSTOM_NVIM_PATH}"
+sudo update-alternatives --set vi "${CUSTOM_NVIM_PATH}"
+sudo update-alternatives --set view "${CUSTOM_NVIM_PATH}"
+sudo update-alternatives --set vim "${CUSTOM_NVIM_PATH}"
+sudo update-alternatives --set vimdiff "${CUSTOM_NVIM_PATH}"
+

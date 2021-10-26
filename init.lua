@@ -17,47 +17,54 @@ end
 
 -------------------- PLUGINS -------------------------------
 
-cmd 'packadd paq-nvim'
-local paq = require('paq-nvim').paq
-paq { 'savq/paq-nvim', opt = true }
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+end
 
-paq { 'dracula/vim' }
-paq { 'kyazdani42/nvim-web-devicons' }
-paq { 'norcalli/nvim-colorizer.lua' }
-paq { 'nvim-lua/popup.nvim' }
-paq { 'ntpeters/vim-better-whitespace' }
-paq { 'p00f/nvim-ts-rainbow' }
-paq { 'luukvbaal/stabilize.nvim' }
-paq { 'onsails/lspkind-nvim' }
+local config = require('packer').startup(function(use)
+  use { 'dracula/vim' }
+  use { 'kyazdani42/nvim-web-devicons' }
+  use { 'norcalli/nvim-colorizer.lua' }
+  use { 'nvim-lua/popup.nvim' }
+  use { 'ntpeters/vim-better-whitespace' }
+  use { 'p00f/nvim-ts-rainbow' }
+  use { 'luukvbaal/stabilize.nvim' }
+  use { 'onsails/lspkind-nvim' }
 
-paq { 'neovim/nvim-lspconfig' }
-paq { 'williamboman/nvim-lsp-installer' }
-paq { 'nvim-treesitter/nvim-treesitter' }
-paq { 'nvim-treesitter/playground' }
-paq { 'nvim-treesitter/nvim-treesitter-textobjects' }
-paq { 'RRethy/nvim-treesitter-textsubjects' }
+  use { 'neovim/nvim-lspconfig' }
+  use { 'williamboman/nvim-lsp-installer' }
+  use { 'nvim-treesitter/nvim-treesitter' }
+  use { 'nvim-treesitter/playground' }
+  use { 'nvim-treesitter/nvim-treesitter-textobjects' }
+  use { 'RRethy/nvim-treesitter-textsubjects' }
 
-paq { 'hrsh7th/cmp-nvim-lsp' }
-paq { 'hrsh7th/cmp-buffer' }
-paq { 'hrsh7th/nvim-cmp' }
-paq { 'windwp/nvim-autopairs' }
-paq { 'windwp/nvim-ts-autotag' }
-paq { 'tpope/vim-commentary' }
-paq { 'JoosepAlviste/nvim-ts-context-commentstring' }
-paq { 'mg979/vim-visual-multi' }
+  use { 'hrsh7th/cmp-nvim-lsp' }
+  use { 'hrsh7th/cmp-buffer' }
+  use { 'hrsh7th/nvim-cmp' }
+  use { 'windwp/nvim-autopairs' }
+  use { 'windwp/nvim-ts-autotag' }
+  use { 'tpope/vim-commentary' }
+  use { 'JoosepAlviste/nvim-ts-context-commentstring' }
+  use { 'mg979/vim-visual-multi' }
 
-paq { 'nvim-lua/plenary.nvim' }
-paq { 'nvim-telescope/telescope.nvim', run='git submodule update --init --recursive' }
-paq { 'nvim-telescope/telescope-fzf-native.nvim', run='make' }
-paq { 'folke/trouble.nvim' }
-paq { 'onsails/diaglist.nvim' }
+  use { 'nvim-lua/plenary.nvim' }
+  use { 'nvim-telescope/telescope.nvim', run='git submodule update --init --recursive' }
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run='make' }
+  use { 'folke/trouble.nvim' }
+  --use { 'onsails/diaglist.nvim' }
 
-paq { 'tpope/vim-fugitive' }
-paq { 'pwntester/octo.nvim' }
+  use { 'tpope/vim-fugitive' }
+  use { 'pwntester/octo.nvim' }
 
-paq { 'kyazdani42/nvim-tree.lua' }
+  use { 'kyazdani42/nvim-tree.lua' }
 
-paq { 'aidos/vim-simpledb' }
+  use { 'aidos/vim-simpledb' }
+
+  if packer_bootstrap then
+    require('packer').sync()
+  end
+end)
 
 
 -------------------- OPTIONS -------------------------------
@@ -408,3 +415,4 @@ lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(
 -- stops windows shuffling about
 require("stabilize").setup()
 
+return config

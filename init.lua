@@ -27,6 +27,8 @@ paq { 'norcalli/nvim-colorizer.lua' }
 paq { 'nvim-lua/popup.nvim' }
 paq { 'ntpeters/vim-better-whitespace' }
 paq { 'p00f/nvim-ts-rainbow' }
+paq { 'luukvbaal/stabilize.nvim' }
+paq { 'onsails/lspkind-nvim' }
 
 paq { 'neovim/nvim-lspconfig' }
 paq { 'williamboman/nvim-lsp-installer' }
@@ -35,7 +37,9 @@ paq { 'nvim-treesitter/playground' }
 paq { 'nvim-treesitter/nvim-treesitter-textobjects' }
 paq { 'RRethy/nvim-treesitter-textsubjects' }
 
-paq { 'hrsh7th/nvim-compe' }
+paq { 'hrsh7th/cmp-nvim-lsp' }
+paq { 'hrsh7th/cmp-buffer' }
+paq { 'hrsh7th/nvim-cmp' }
 paq { 'windwp/nvim-autopairs' }
 paq { 'windwp/nvim-ts-autotag' }
 paq { 'tpope/vim-commentary' }
@@ -46,6 +50,7 @@ paq { 'nvim-lua/plenary.nvim' }
 paq { 'nvim-telescope/telescope.nvim', run='git submodule update --init --recursive' }
 paq { 'nvim-telescope/telescope-fzf-native.nvim', run='make' }
 paq { 'folke/trouble.nvim' }
+paq { 'onsails/diaglist.nvim' }
 
 paq { 'tpope/vim-fugitive' }
 paq { 'pwntester/octo.nvim' }
@@ -56,13 +61,16 @@ paq { 'aidos/vim-simpledb' }
 
 
 -------------------- OPTIONS -------------------------------
+--
+-- opts Opts OPTS
 
-local indent, width = 2, 80
 cmd 'colorscheme dracula'
+
+local indent, width = 2, 150
 
 opt.colorcolumn = tostring(width)   -- Line length marker
 --opt.completeopt = {'menuone', 'noinsert', 'noselect'}  -- Completion options
-opt.completeopt = {'menuone', 'noselect'}  -- Completion options
+opt.completeopt = {'menu', 'menuone', 'noselect'}  -- Completion options
 opt.cursorline = false              -- Highlight cursor line
 opt.expandtab = true                -- Use spaces instead of tabs
 opt.formatoptions = 'crqnj'         -- Automatic formatting options
@@ -77,6 +85,7 @@ opt.shiftwidth = indent             -- Size of an indent
 opt.sidescrolloff = 15              -- Columns of context
 opt.signcolumn = 'yes'              -- Show sign column
 opt.smartcase = true                -- Do not ignore case with capitals
+opt.autoindent = true               -- Insert indents automatically
 opt.smartindent = true              -- Insert indents automatically
 opt.cindent = true                  -- Insert indents automatically
 opt.splitbelow = true               -- Put new windows below current
@@ -88,10 +97,6 @@ opt.updatetime = 100                -- Delay before swap file is saved
 opt.wildmode = {'longest:full'}     -- Command-line completion mode
 opt.wrap = false                    -- Disable line wrap
 opt.hlsearch = false                -- Don't highlight search results
-
---vim.wo.foldmethod = 'expr'
---vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
-
 
 -------------------- MAPPINGS ------------------------------
 
@@ -155,7 +160,7 @@ map('n', 'F', '<cmd>lua vim.lsp.buf.formatting()<CR>')
 map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
 map('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = "single"})<CR>')
 map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
+-- map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 --map('n', 'gs', '<cmd>Telescope lsp_document_symbols<CR>')
 
 -- trouble
@@ -164,19 +169,7 @@ map('n', '<leader>xw', '<cmd>Trouble lsp_workspace_diagnostics<cr>')
 map('n', '<leader>xd', '<cmd>Trouble lsp_document_diagnostics<cr>')
 map('n', '<leader>xq', '<cmd>Trouble quickfix<cr>')
 map('n', '<leader>xl', '<cmd>Trouble loclist<cr>')
---map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
-
-
--- text objects
--- for _, ch in ipairs({
---   '<space>', '!', '#', '$', '%', '&', '*', '+', ',', '-', '.',
---   '/', ':', ';', '=', '?', '@', '<bslash>', '^', '_', '~', '<bar>',
--- }) do
---   map('x', fmt('i%s', ch), fmt(':<C-u>normal! T%svt%s<CR>', ch, ch), {silent = true})
---   map('o', fmt('i%s', ch), fmt(':<C-u>normal vi%s<CR>', ch), {silent = true})
---   map('x', fmt('a%s', ch), fmt(':<C-u>normal! F%svf%s<CR>', ch, ch), {silent = true})
---   map('o', fmt('a%s', ch), fmt(':<C-u>normal va%s<CR>', ch), {silent = true})
--- end
+map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
 
 
 
@@ -193,7 +186,9 @@ require"octo".setup()
 -- lsp.set_log_level("debug")
 local lsp_installer = require("nvim-lsp-installer")
 lsp_installer.on_server_ready(function(server)
-    local opts = {}
+    local opts = {
+      capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    }
     -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
     server:setup(opts)
     cmd [[ do User LspAttachBuffers ]]
@@ -256,6 +251,7 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = 'maintained',
 
   highlight = { enable = true },
+  indent = { enable = false },
   autotag = { enable = true },
   autopairs = { enable = true },
   context_commentstring = { enable = true },
@@ -323,41 +319,39 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
--- completion
-require'compe'.setup {
-  enabled = true,
-  autocomplete = true,
-  debug = false,
-  --throttle_time = 80,
-  min_length = 1,
-  --preselect = 'disable', -- 'enable' / 'always'
-  documentation = {
-    border = 'single', -- the border option is the same as `|help nvim_open_win|`
-    -- winhighlight = 'CompeDocumentation', -- highlight group used for the documentation window
-    -- max_width = 120,
-    -- min_width = 40,
-    -- max_height = math.floor(vim.o.lines * 0.3),
-    -- min_height = 1,
+local lspkind = require('lspkind')
+local cmp = require'cmp'
+cmp.setup({
+  mapping = {
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
   },
-  source = {
-    path = true,
-    buffer = true,
-    calc = true,
-    nvim_lsp = true,
-    nvim_lua = true,
-    vsnip = true,
-    ultisnips = true,
-    luasnip = true,
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'buffer' },
   },
-}
+  formatting = {
+    format = lspkind.cmp_format({with_text = false, maxwidth = 50})
+  }
+})
+
 
 require('nvim-autopairs').setup{
-  check_ts = true
+  check_ts = true,
+  enable_check_bracket_line = false,
 }
-require("nvim-autopairs.completion.compe").setup({
+require("nvim-autopairs.completion.cmp").setup({
   map_cr = true, --  map <CR> on insert mode
   map_complete = true, -- it will auto insert `(` after select function or method item
-  auto_select = false,  -- auto select first item
+  auto_select = true,  -- auto select first item
+  insert = false,
+  map_char = { -- modifies the function or method delimiter by filetypes
+    all = '(',
+    tex = '{'
+  }
 })
 
 
@@ -410,4 +404,7 @@ lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(
     update_in_insert = true,
   }
 )
+
+-- stops windows shuffling about
+require("stabilize").setup()
 

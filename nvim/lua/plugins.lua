@@ -3,15 +3,16 @@
 local fn = vim.fn
 local packer_install_dir = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 
+local first_run = false
 if fn.glob(packer_install_dir) == "" then
   vim.api.nvim_echo({ { "Installing packer.nvim", "Type" } }, true, {})
-  packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_install_dir})
-  --vim.api.nvim_command 'packadd packer.nvim'
+  fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', packer_install_dir})
+  first_run = true
 end
 
 vim.cmd("packadd packer.nvim")
 
-return require('packer').startup(function(use)
+require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use { 'dracula/vim' }
@@ -52,8 +53,9 @@ return require('packer').startup(function(use)
 
   use { 'aidos/vim-simpledb' }
 
-  if packer_bootstrap then
+  if first_run then
     require('packer').sync()
   end
 end)
 
+return first_run

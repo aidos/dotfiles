@@ -34,7 +34,6 @@ require('packer').startup(function(use)
   use { 'hrsh7th/cmp-nvim-lsp' }
   use { 'hrsh7th/cmp-buffer' }
   use { 'hrsh7th/nvim-cmp' }
-  use { 'windwp/nvim-autopairs' }
   use { 'windwp/nvim-ts-autotag' }
   use { 'tpope/vim-commentary' }
   use { 'JoosepAlviste/nvim-ts-context-commentstring' }
@@ -44,7 +43,6 @@ require('packer').startup(function(use)
   use { 'nvim-telescope/telescope.nvim', run='git submodule update --init --recursive' }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run='make' }
   use { 'folke/trouble.nvim' }
-  --use { 'onsails/diaglist.nvim' }
 
   use { 'tpope/vim-fugitive' }
   use { 'pwntester/octo.nvim' }

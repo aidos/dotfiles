@@ -13,6 +13,7 @@ if first_run then
 end
 
 require('options')
+require('mappings')
 
 vim.cmd([[
   augroup packer_user_config

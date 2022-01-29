@@ -73,8 +73,23 @@ require'trouble'.setup{ }
 -- telescope
 local actions = require('telescope.actions')
 local trouble = require("trouble.providers.telescope")
+local previewers = require("telescope.previewers")
+-- disable preview for bigger files
+local new_maker = function(filepath, bufnr, opts)
+  opts = opts or {}
+  filepath = vim.fn.expand(filepath)
+  vim.loop.fs_stat(filepath, function(_, stat)
+    if not stat then return end
+    if stat.size > 100000 then
+      return
+    else
+      previewers.buffer_previewer_maker(filepath, bufnr, opts)
+    end
+  end)
+end
 require('telescope').setup {
     defaults = {
+        buffer_previewer_maker = new_maker,
         vimgrep_arguments = {
             'rg',
             '--max-columns=1000',
@@ -84,8 +99,8 @@ require('telescope').setup {
             '--with-filename',
             '--line-number',
             '--column',
+            '--smart-case',
             --'--trim',
-            '--smart-case'
         },
         file_sorter = require('telescope.sorters').get_fzy_sorter,
         prompt_prefix = ' > ',

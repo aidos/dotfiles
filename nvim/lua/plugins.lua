@@ -40,7 +40,12 @@ require('packer').startup(function(use)
   use { 'mg979/vim-visual-multi' }
 
   use { 'nvim-lua/plenary.nvim' }
-  use { 'nvim-telescope/telescope.nvim', run='git submodule update --init --recursive' }
+  use { 'nvim-telescope/telescope.nvim',
+    run='git submodule update --init --recursive',
+    requires = {
+      { 'nvim-telescope/telescope-live-grep-raw.nvim' }
+    }
+  }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run='make' }
   use { 'folke/trouble.nvim' }
 

@@ -84,6 +84,7 @@ require('telescope').setup {
             '--with-filename',
             '--line-number',
             '--column',
+            --'--trim',
             '--smart-case'
         },
         file_sorter = require('telescope.sorters').get_fzy_sorter,
@@ -99,6 +100,8 @@ require('telescope').setup {
                 ["<C-x>"] = false,
                 ["<C-q>"] = actions.send_to_qflist,
                 ["<C-t>"] = trouble.open_with_trouble,
+                ["<C-Up>"] = actions.cycle_history_prev,
+                ["<C-Down>"] = actions.cycle_history_next,
             },
             n = {
               ["<C-t>"] = trouble.open_with_trouble,

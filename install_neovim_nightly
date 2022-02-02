@@ -9,14 +9,14 @@ sudo apt install -y nodejs
 
 # ripgrep for fast af file searching
 cd
-sudo apt install git cargo
+sudo apt install -y git cargo
 git clone https://github.com/BurntSushi/ripgrep
 cd ripgrep && cargo build --release
 sudo cp target/release/rg /usr/local/bin/
 
 # build vim from src
 cd
-sudo apt install ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl
+sudo apt install -y ninja-build gettext libtool libtool-bin autoconf automake cmake g++ pkg-config unzip curl
 git clone https://github.com/neovim/neovim.git
 cd neovim
 # git checkout stable
@@ -27,7 +27,7 @@ sudo make install
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo gpg --dearmor -o /usr/share/keyrings/githubcli-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 sudo apt update
-sudo apt install gh
+sudo apt install -y gh
 
 # neovim all the things
 CUSTOM_NVIM_PATH=/usr/local/bin/nvim

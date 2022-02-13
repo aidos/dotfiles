@@ -27,7 +27,6 @@ vim.cmd([[
       if exists(':TSBufDisable')
           exec 'TSBufDisable autotag'
           exec 'TSBufDisable highlight'
-          " etc...
       endif
 
       set foldmethod=manual
@@ -45,3 +44,4 @@ vim.cmd([[
   augroup END
 ]])
 
+vim.cmd('source osc52.vim')

@@ -81,3 +81,23 @@ map('n', '<leader>xq', '<cmd>Trouble quickfix<cr>')
 map('n', '<leader>xl', '<cmd>Trouble loclist<cr>')
 map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
 
+-- quickfix
+-- vim.api.nvim_command([[
+--   function! QuickfixMapping()
+--     " open current quickfix entry
+--     nnoremap <buffer> o <CR>zz<-w>w
+--     " go to the previous location and stay in the quickfix window
+--     nnoremap <buffer> K :cprev<CR>zz<C-w>w
+--     " go to the next location and stay in the quickfix window
+--     nnoremap <buffer> J :cnext<CR>zz<C-w>w
+--   endfunction
+
+--   augroup quickfix_group
+--     autocmd!
+--     autocmd filetype qf call QuickfixMapping()
+--   augroup END
+-- ]])
+
+map('v', '<leader>c', 'y:call SendViaOSC52(getreg(\'"\'))<cr>', {silent=true})
+-- vmap <silent> <leader>c y:call SendViaOSC52(getreg('"'))<cr>
+

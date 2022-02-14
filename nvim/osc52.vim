@@ -46,7 +46,6 @@ endfunction
 function! s:get_OSC52 (str)
   let b64 = s:b64encode(a:str, 0)
   let rv = "\e]52;c;" . b64 . "\x07"
-  " printf "\033]52;c;Y29weXBhc3RhIQ==\a\n"
   return rv
 endfunction
 
@@ -87,9 +86,8 @@ endfunction
 " This function causes the terminal to flash as a side effect.  It would be
 " better if it didn't, but I can't figure out how.
 function! s:rawecho (str)
-  " exec("silent! !echo " . shellescape(a:str))
   call chansend(v:stderr, shellescape(a:str))
-  "exec("!printf \"" . shellescape(a:str) . "\"")
+  " this redraw isn't working and you end up with weird artifacts
   redraw!
 endfunction
 

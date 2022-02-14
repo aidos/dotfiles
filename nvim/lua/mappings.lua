@@ -98,6 +98,4 @@ map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
 --   augroup END
 -- ]])
 
-map('v', '<leader>c', 'y:call SendViaOSC52(getreg(\'"\'))<cr>', {silent=true})
--- vmap <silent> <leader>c y:call SendViaOSC52(getreg('"'))<cr>
-
+map('v', '<leader>c', "y:call SendViaOSC52(getreg('\"'))<cr>", { silent = true })

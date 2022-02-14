@@ -44,4 +44,4 @@ vim.cmd([[
   augroup END
 ]])
 
-vim.cmd('source osc52.vim')
+vim.cmd('source ' .. vim.fn.stdpath('config') .. '/osc52.vim')

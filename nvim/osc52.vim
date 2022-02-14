@@ -86,7 +86,7 @@ endfunction
 " This function causes the terminal to flash as a side effect.  It would be
 " better if it didn't, but I can't figure out how.
 function! s:rawecho (str)
-  call chansend(v:stderr, shellescape(a:str))
+  call chansend(v:stderr, a:str)
   " this redraw isn't working and you end up with weird artifacts
   redraw!
 endfunction

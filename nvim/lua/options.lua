@@ -65,6 +65,17 @@ lsp_installer.on_server_ready(function(server)
     cmd [[ do User LspAttachBuffers ]]
 end)
 
+local null_ls = require('null-ls')
+null_ls.setup({
+    sources = {
+        null_ls.builtins.formatting.eslint,
+        --null_ls.builtins.diagnostics.eslint,
+        null_ls.builtins.formatting.black.with({
+            command = "/opt/venvs/countfire/bin/black"
+        }),
+    },
+})
+
 
 -- trouble
 require'trouble'.setup{ }
@@ -93,7 +104,7 @@ require('telescope').setup {
         vimgrep_arguments = {
             'rg',
             '--max-columns=1000',
-            --'--max-columns-preivew=1000',
+            --'--max-columns-preview=1000',
             '--color=never',
             '--no-heading',
             '--with-filename',
@@ -209,20 +220,41 @@ require('nvim-treesitter.configs').setup {
 
 local lspkind = require('lspkind')
 local cmp = require'cmp'
-cmp.setup({
+cmp.setup {
   mapping = {
     ['<C-d>'] = cmp.mapping.scroll_docs(-4),
     ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-y>'] = cmp.mapping.confirm({ select = true }),
     ['<C-e>'] = cmp.mapping.close(),
+    ['<C-y>'] = cmp.mapping.confirm {
+      behaviour = cmp.ConfirmBehavior.Insert,
+      select = true,
+    },
+    ['<C-Space>'] = cmp.mapping.complete(),
   },
   sources = {
     { name = 'nvim_lsp' },
-    { name = 'buffer' },
+    { name = 'luasnip' },
+    { name = 'buffer', keyword_length = 5 },
+  },
+  snippet = {
+    expand = function(args)
+      require('luasnip').lsp_expand(args.body)
+    end,
   },
   formatting = {
-    format = lspkind.cmp_format({with_text = false, maxwidth = 50})
+    format = lspkind.cmp_format {
+      with_text = false,
+      menu = {
+        nvim_lsp = "[lsp]",
+        luasnip = "[snip]",
+        buffer = "[buf]",
+      }
+    }
+  }
+}
+cmp.setup.cmdline('/', {
+  sources = {
+    { name = 'buffer' }
   }
 })
 

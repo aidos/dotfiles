@@ -42,6 +42,7 @@ sudo update-alternatives --set vi "${CUSTOM_NVIM_PATH}"
 sudo update-alternatives --set view "${CUSTOM_NVIM_PATH}"
 sudo update-alternatives --set vim "${CUSTOM_NVIM_PATH}"
 sudo update-alternatives --set vimdiff "${CUSTOM_NVIM_PATH}"
+sudo update-alternatives --set editor "${CUSTOM_NVIM_PATH}"
 
 
 echo "Configuring vim"

@@ -12,6 +12,11 @@ end
 
 vim.cmd("packadd packer.nvim")
 
+function get_setup(name)
+  return string.format('require("setup/%s")', name)
+end
+
+
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
@@ -32,7 +37,7 @@ require('packer').startup(function(use)
   use { 'RRethy/nvim-treesitter-textsubjects' }
   use { 'jose-elias-alvarez/null-ls.nvim' }
 
-  use { 'L3MON4D3/LuaSnip' }
+  use { 'L3MON4D3/LuaSnip', config = get_setup("luasnip") }
   use { 'hrsh7th/nvim-cmp' }
   use { 'hrsh7th/cmp-buffer' }
   use { 'hrsh7th/cmp-nvim-lsp' }

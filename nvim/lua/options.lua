@@ -67,11 +67,15 @@ end)
 
 local null_ls = require('null-ls')
 null_ls.setup({
+    debug = true,
     sources = {
         null_ls.builtins.formatting.eslint,
         --null_ls.builtins.diagnostics.eslint,
         null_ls.builtins.formatting.black.with({
             command = "/opt/venvs/countfire/bin/black"
+        }),
+        null_ls.builtins.formatting.pg_format.with({
+          extra_args = {"--keyword-case", "0"}
         }),
     },
 })
@@ -254,7 +258,7 @@ cmp.setup {
 }
 cmp.setup.cmdline('/', {
   sources = {
-    { name = 'buffer' }
+    { name = 'buffer', keyword_length = 5 },
   }
 })
 
@@ -311,3 +315,4 @@ lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(
 
 -- stops windows shuffling about
 require("stabilize").setup()
+

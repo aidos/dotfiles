@@ -67,16 +67,17 @@ map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
 map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
 map('n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
 map('n', 'F', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+map('v', 'F', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
 map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-map('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = "single"})<CR>')
+map('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float(0, {scope="line"})<CR>')
 map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
 -- map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 --map('n', 'gs', '<cmd>Telescope lsp_document_symbols<CR>')
 
 -- trouble
 map('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
-map('n', '<leader>xw', '<cmd>Trouble lsp_workspace_diagnostics<cr>')
-map('n', '<leader>xd', '<cmd>Trouble lsp_document_diagnostics<cr>')
+map('n', '<leader>xw', '<cmd>Trouble workspace_diagnostics<cr>')
+map('n', '<leader>xd', '<cmd>Trouble document_diagnostics<cr>')
 map('n', '<leader>xq', '<cmd>Trouble quickfix<cr>')
 map('n', '<leader>xl', '<cmd>Trouble loclist<cr>')
 map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
@@ -98,4 +99,26 @@ map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
 --   augroup END
 -- ]])
 
+
+-- snippets
+ls = require('luasnip')
+vim.keymap.set({ "i", "s" }, "<c-k>", function()
+  if ls.expand_or_jumpable() then
+    ls.expand_or_jump()
+  end
+end, { silent = true })
+vim.keymap.set({ "i", "s" }, "<c-j>", function()
+  if ls.jumpable(-1) then
+    ls.jump(-1)
+  end
+end, { silent = true })
+vim.keymap.set("i", "<c-l>", function()
+  if ls.choice_active() then
+    ls.change_choice(1)
+  end
+end)
+map("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/lua/setup/luasnip.lua<CR>")
+
+-- copy to clipboard
 map('v', '<leader>c', "y:call SendViaOSC52(getreg('\"'))<cr>", { silent = true })
+

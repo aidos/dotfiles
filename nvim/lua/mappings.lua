@@ -1,15 +1,13 @@
-
 -------------------- HELPERS -------------------------------
 
 --local vim = require('vim')
 local api, cmd, g, lsp, fn = vim.api, vim.cmd, vim.g, vim.lsp, vim.fn
 
 local function map(mode, lhs, rhs, opts)
-  local options = {noremap = true}
+  local options = { noremap = true }
   if opts then options = vim.tbl_extend('force', options, opts) end
   api.nvim_set_keymap(mode, lhs, rhs, options)
 end
-
 
 -------------------- MAPPINGS ------------------------------
 
@@ -41,8 +39,8 @@ map('n', '<leader>s', ':%s///gcI<Left><Left><Left><Left>')
 map('v', '<leader>s', ':s///gcI<Left><Left><Left><Left>')
 
 -- better search in command history
-map('c', '<c-n>', 'wildmenumode() ? "\\<c-n>" : "\\<down>"', {expr = true})
-map('c', '<c-p>', 'wildmenumode() ? "\\<c-p>" : "\\<up>"', {expr = true})
+map('c', '<c-n>', 'wildmenumode() ? "\\<c-n>" : "\\<down>"', { expr = true })
+map('c', '<c-p>', 'wildmenumode() ? "\\<c-p>" : "\\<up>"', { expr = true })
 
 -- telescope
 map('n', '<leader>ff', '<cmd>Telescope find_files<CR>')
@@ -69,7 +67,7 @@ map('n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
 map('n', 'F', '<cmd>lua vim.lsp.buf.formatting()<CR>')
 map('v', 'F', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
 map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-map('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float(0, {scope="line"})<CR>')
+map('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float(0, {scope="line", border="single"})<CR>')
 map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
 -- map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 --map('n', 'gs', '<cmd>Telescope lsp_document_symbols<CR>')
@@ -121,4 +119,3 @@ map("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/lua/setup/luasnip.lua<
 
 -- copy to clipboard
 map('v', '<leader>c', "y:call SendViaOSC52(getreg('\"'))<cr>", { silent = true })
-

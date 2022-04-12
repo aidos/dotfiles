@@ -60,6 +60,28 @@ lsp_installer.on_server_ready(function(server)
     capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   }
   -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
+
+  if server.name == "eslint" then
+    opts.on_attach = function(client, bufnr)
+      -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
+      -- the resolved capabilities of the eslint server ourselves!
+      client.resolved_capabilities.document_formatting = true
+      --common_on_attach(client, bufnr)
+    end
+    opts.settings = {
+      format = { enable = true }, -- this will enable formatting
+    }
+  end
+
+  if server.name == "tsserver" then
+    opts.on_attach = function(client, bufnr)
+      client.resolved_capabilities.document_formatting = false
+    end
+    opts.settings = {
+      format = { enable = false }, -- this will enable formatting
+    }
+  end
+
   server:setup(opts)
   cmd [[ do User LspAttachBuffers ]]
 end)
@@ -68,14 +90,14 @@ local null_ls = require('null-ls')
 null_ls.setup({
   debug = true,
   sources = {
-    null_ls.builtins.formatting.eslint,
+    -- null_ls.builtins.formatting.eslint,
     --null_ls.builtins.diagnostics.eslint,
     null_ls.builtins.formatting.black.with({
       command = "/opt/venvs/countfire/bin/black"
     }),
-    null_ls.builtins.formatting.pg_format.with({
-      extra_args = { "--keyword-case", "0" }
-    }),
+    -- null_ls.builtins.formatting.pg_format.with({
+    --   extra_args = { "--keyword-case", "0" }
+    -- }),
   },
 })
 

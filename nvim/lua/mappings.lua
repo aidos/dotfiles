@@ -31,18 +31,18 @@ map('n', 'gn', '<cmd>cn<CR>')
 map('n', 'gp', '<cmd>cp<CR>')
 
 -- window controls
-map('n', '<C-h>', '<C-w>h')
-map('n', '<C-j>', '<C-w>j')
-map('n', '<C-k>', '<C-w>k')
-map('n', '<C-l>', '<C-w>l')
+map('n', '<c-h>', '<c-w>h')
+map('n', '<c-j>', '<c-w>j')
+map('n', '<c-k>', '<c-w>k')
+map('n', '<c-l>', '<c-w>l')
 
 -- shortcut search and replace
 map('n', '<leader>s', ':%s///gcI<Left><Left><Left><Left>')
 map('v', '<leader>s', ':s///gcI<Left><Left><Left><Left>')
 
 -- better search in command history
-map('c', '<C-n>', 'wildmenumode() ? "\\<c-n>" : "\\<down>"', {expr = true})
-map('c', '<C-p>', 'wildmenumode() ? "\\<c-p>" : "\\<up>"', {expr = true})
+map('c', '<c-n>', 'wildmenumode() ? "\\<c-n>" : "\\<down>"', {expr = true})
+map('c', '<c-p>', 'wildmenumode() ? "\\<c-p>" : "\\<up>"', {expr = true})
 
 -- telescope
 map('n', '<leader>ff', '<cmd>Telescope find_files<CR>')
@@ -86,11 +86,11 @@ map('n', 'gr', '<cmd>Trouble lsp_references<cr>')
 -- vim.api.nvim_command([[
 --   function! QuickfixMapping()
 --     " open current quickfix entry
---     nnoremap <buffer> o <CR>zz<-w>w
+--     nnoremap <buffer> o <CR>zz<c-w>w
 --     " go to the previous location and stay in the quickfix window
---     nnoremap <buffer> K :cprev<CR>zz<C-w>w
+--     nnoremap <buffer> K :cprev<CR>zz<c-w>w
 --     " go to the next location and stay in the quickfix window
---     nnoremap <buffer> J :cnext<CR>zz<C-w>w
+--     nnoremap <buffer> J :cnext<CR>zz<c-w>w
 --   endfunction
 
 --   augroup quickfix_group

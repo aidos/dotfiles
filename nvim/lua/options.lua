@@ -66,10 +66,9 @@ lsp_installer.on_server_ready(function(server)
       -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
       -- the resolved capabilities of the eslint server ourselves!
       client.resolved_capabilities.document_formatting = true
-      --common_on_attach(client, bufnr)
     end
     opts.settings = {
-      format = { enable = true }, -- this will enable formatting
+      format = { enable = true }
     }
   end
 
@@ -78,7 +77,7 @@ lsp_installer.on_server_ready(function(server)
       client.resolved_capabilities.document_formatting = false
     end
     opts.settings = {
-      format = { enable = false }, -- this will enable formatting
+      format = { enable = false },
     }
   end
 
@@ -254,26 +253,49 @@ cmp.setup {
   mapping = {
     ['<c-d>'] = cmp.mapping.scroll_docs(-4),
     ['<c-f>'] = cmp.mapping.scroll_docs(4),
-    ['<c-e>'] = cmp.mapping.close(),
-    ['<c-y>'] = cmp.mapping.confirm {
-      behaviour = cmp.ConfirmBehavior.Insert,
-      select = true,
-    },
-    ["<c-space>"] = cmp.mapping {
-      i = cmp.mapping.complete(),
-      c = function(
-        _ --[[fallback]]
-      )
+    ['<c-n>'] = {
+      i = function()
         if cmp.visible() then
-          if not cmp.confirm { select = true } then
-            return
-          end
+          cmp.select_next_item()
         else
           cmp.complete()
         end
-      end,
+      end
     },
-
+    ['<c-p>'] = {
+      i = function()
+        if cmp.visible() then
+          cmp.select_prev_item()
+        else
+          cmp.complete()
+        end
+      end
+    },
+    ['<c-space>'] = {
+      i = function()
+        if cmp.visible() then
+          return cmp.confirm({
+            behaviour = cmp.ConfirmBehavior.Insert,
+            select = false
+          })
+        else
+          cmp.complete()
+        end
+      end
+    },
+    ['<C-y>'] = {
+      i = cmp.mapping.confirm({
+        behaviour = cmp.ConfirmBehavior.Insert,
+        select = true
+      }),
+    },
+    ['<C-e>'] = {
+      i = cmp.mapping.abort(),
+    }
+  },
+  window = {
+    completion = cmp.config.window.bordered(),
+    documentation = cmp.config.window.bordered(),
   },
   sources = {
     { name = 'nvim_lsp', keyword_length = 4 },
@@ -296,7 +318,16 @@ cmp.setup {
     }
   }
 }
+-- cmp.setup.cmdline(':', {
+--   mapping = cmp.mapping.preset.cmdline(),
+--   sources = cmp.config.sources({
+--     { name = 'path' }
+--   }, {
+--     { name = 'cmdline' }
+--   })
+-- })
 cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
   sources = {
     { name = 'buffer', keyword_length = 5 },
   }

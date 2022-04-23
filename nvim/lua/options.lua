@@ -65,16 +65,16 @@ lsp_installer.on_server_ready(function(server)
     opts.on_attach = function(client, bufnr)
       -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
       -- the resolved capabilities of the eslint server ourselves!
-      client.resolved_capabilities.document_formatting = true
+      -- client.resolved_capabilities.document_formatting = true
     end
     opts.settings = {
-      format = { enable = true }
+      -- format = { enable = true }
     }
   end
 
   if server.name == "tsserver" then
     opts.on_attach = function(client, bufnr)
-      client.resolved_capabilities.document_formatting = false
+      -- client.resolved_capabilities.document_formatting = false
     end
     opts.settings = {
       format = { enable = false },
@@ -318,14 +318,14 @@ cmp.setup {
     }
   }
 }
--- cmp.setup.cmdline(':', {
---   mapping = cmp.mapping.preset.cmdline(),
---   sources = cmp.config.sources({
---     { name = 'path' }
---   }, {
---     { name = 'cmdline' }
---   })
--- })
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline', keyword_length = 4 }
+  })
+})
 cmp.setup.cmdline('/', {
   mapping = cmp.mapping.preset.cmdline(),
   sources = {

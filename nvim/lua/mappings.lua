@@ -14,8 +14,10 @@ end
 g.mapleader = " "
 
 -- copy / paste
-map('n', '<leader>c', '"+y')
+-- map('n', '<leader>c', '"+y')
 map('n', '<leader>v', '"+p')
+-- copy to clipboard
+map('v', '<leader>c', "y:call SendViaOSC52(getreg('\"'))<cr>", { silent = true })
 
 map('i', 'jj', '<ESC>')
 -- Y to act like D and C
@@ -50,9 +52,6 @@ map('n', '<leader>fb', '<cmd>Telescope buffers<CR>')
 map('n', '<leader>ft', '<cmd>Telescope builtin<CR>')
 map('n', '<leader>fq', '<cmd>Telescope quickfix<CR>')
 
-map('n', '<leader>fd', '<cmd>NvimTreeToggle<CR>')
-map('n', '<leader>fc', '<cmd>NvimTreeFindFile<CR>')
-
 ---- fugitive and git
 local log = [[\%C(yellow)\%h\%Cred\%d \%Creset\%s \%Cgreen(\%ar) \%Cblue\%an\%Creset]]
 map('n', '<leader>g<space>', ':Git ')
@@ -67,7 +66,8 @@ map('n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
 map('n', 'F', '<cmd>lua vim.lsp.buf.formatting()<CR>')
 map('v', 'F', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
 map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-map('n', '<leader>e', '<cmd>lua vim.diagnostic.open_float(0, {scope="line", border="single"})<CR>')
+map('n', '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>')
+map('n', '<leader>le', '<cmd>lua vim.diagnostic.open_float(0, {scope="line", border="single"})<CR>')
 map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
 -- map('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>')
 --map('n', 'gs', '<cmd>Telescope lsp_document_symbols<CR>')
@@ -117,5 +117,3 @@ vim.keymap.set("i", "<c-l>", function()
 end)
 map("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/lua/setup/luasnip.lua<CR>")
 
--- copy to clipboard
-map('v', '<leader>c', "y:call SendViaOSC52(getreg('\"'))<cr>", { silent = true })

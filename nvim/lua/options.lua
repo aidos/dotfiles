@@ -57,20 +57,21 @@ require "octo".setup()
 local lsp_installer = require("nvim-lsp-installer")
 lsp_installer.on_server_ready(function(server)
   local opts = {
-    capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    -- capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   }
   -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
 
-  if server.name == "eslint" then
-    opts.on_attach = function(client, bufnr)
-      -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
-      -- the resolved capabilities of the eslint server ourselves!
-      -- client.resolved_capabilities.document_formatting = true
-    end
-    opts.settings = {
-      -- format = { enable = true }
-    }
-  end
+  -- if server.name == "eslint" then
+  --   print(vim.inspect(opts))
+  --   opts.on_attach = function(client, bufnr)
+  --     -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
+  --     -- the resolved capabilities of the eslint server ourselves!
+  --     -- client.resolved_capabilities.document_formatting = true
+  --   end
+  --   opts.settings = {
+  --     -- format = { enable = true }
+  --   }
+  -- end
 
   if server.name == "tsserver" then
     opts.on_attach = function(client, bufnr)
@@ -332,6 +333,18 @@ cmp.setup.cmdline('/', {
     { name = 'buffer', keyword_length = 5 },
   }
 })
+
+
+local ls = require "luasnip"
+ls.config.set_config {
+    history = true,
+    -- treesitter-hl has 100, use something higher (default is 200).
+    ext_base_prio = 200,
+    -- minimal increase in priority.
+    ext_prio_increase = 1,
+    enable_autosnippets = false,
+    store_selection_keys = "<c-s>",
+}
 
 
 -- colors

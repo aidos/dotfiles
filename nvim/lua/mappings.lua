@@ -116,4 +116,3 @@ vim.keymap.set("i", "<c-l>", function()
   end
 end)
 map("n", "<leader><leader>s", "<cmd>source ~/.config/nvim/lua/setup/luasnip.lua<CR>")
-

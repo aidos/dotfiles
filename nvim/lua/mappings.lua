@@ -63,7 +63,7 @@ map('n', '<leader>gl', string.format('<cmd>term git log --graph --all --format="
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')
 map('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
 map('n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-map('n', 'F', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+map('n', 'F', '<cmd>lua vim.lsp.buf.format()<CR>')
 map('v', 'F', '<cmd>lua vim.lsp.buf.range_formatting()<CR>')
 map('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
 map('n', '<leader>la', '<cmd>lua vim.lsp.buf.code_action()<CR>')

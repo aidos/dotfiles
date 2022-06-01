@@ -5,6 +5,7 @@ ln -s ~/.dotfiles/nvim ~/.config/nvim
 
 # need lastest node / npm
 curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+sudo apt update
 sudo apt install -y nodejs npm
 
 # ripgrep for fast af file searching

@@ -46,7 +46,7 @@ map('c', '<c-p>', 'wildmenumode() ? "\\<c-p>" : "\\<up>"', { expr = true })
 
 -- telescope
 map('n', '<leader>ff', '<cmd>Telescope find_files<CR>')
-map('n', '<leader>fg', '<cmd>lua require("telescope").extensions.live_grep_raw.live_grep_args()<CR>')
+map('n', '<leader>fg', '<cmd>lua require("telescope").extensions.live_grep_args.live_grep_args()<CR>')
 map('n', '<leader>fw', '<cmd>Telescope grep_string<CR>')
 map('n', '<leader>fb', '<cmd>Telescope buffers<CR>')
 map('n', '<leader>ft', '<cmd>Telescope builtin<CR>')

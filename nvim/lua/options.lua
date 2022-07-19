@@ -301,7 +301,14 @@ cmp.setup {
   sources = {
     { name = 'nvim_lsp', keyword_length = 4 },
     { name = 'luasnip' },
-    { name = 'buffer', keyword_length = 5 },
+    { name = 'buffer',
+      keyword_length = 5,
+      option = {
+        get_bufnrs = function()
+          return vim.api.nvim_list_bufs()
+        end
+      }
+    },
   },
   snippet = {
     expand = function(args)

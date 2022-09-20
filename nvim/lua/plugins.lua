@@ -36,6 +36,7 @@ require('packer').startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter-textobjects' }
   use { 'RRethy/nvim-treesitter-textsubjects' }
   use { 'jose-elias-alvarez/null-ls.nvim' }
+  use { 'hiphish/jinja.vim' }
 
   use { 'L3MON4D3/LuaSnip', config = get_setup("luasnip") }
   use { 'hrsh7th/nvim-cmp' }

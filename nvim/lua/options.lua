@@ -180,11 +180,17 @@ require('nvim-treesitter.configs').setup {
     'toml', 'yaml', 'cmake', 'make', 'dockerfile', 'json',
   },
 
-  highlight = { enable = true },
+  highlight = {
+    enable = true,
+    disable = function(lang, bufnr)
+        return api.nvim_buf_get_option(bufnr, 'filetype') == 'html.jinja'
+    end,
+
+  },
   indent = { enable = false },
   autotag = { enable = true },
   context_commentstring = { enable = true },
-  rainbow = { enable = true },
+  rainbow = { enable = true, extended_mode = false, },
 
   textsubjects = {
     enable = true,

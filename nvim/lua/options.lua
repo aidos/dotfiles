@@ -333,7 +333,29 @@ cmp.setup {
   }
 }
 cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
+  completion = { autocomplete = false },
+  mapping = cmp.mapping.preset.cmdline({
+    ['<Tab>'] = {
+      c = function(fallback)
+        local cmp = require('cmp')
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          cmp.complete()
+        end
+      end,
+    },
+    ['<S-Tab>'] = {
+      c = function(fallback)
+        local cmp = require('cmp')
+        if cmp.visible() then
+          cmp.select_prev_item()
+        else
+          cmp.complete()
+        end
+      end,
+    },
+  }),
   sources = cmp.config.sources({
     { name = 'path' }
   }, {

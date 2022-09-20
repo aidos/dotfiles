@@ -61,7 +61,6 @@ require('packer').startup(function(use)
 
   use { 'tpope/vim-fugitive' }
   use { 'lewis6991/gitsigns.nvim' }
-  use { 'pwntester/octo.nvim' }
 
   use { 'kyazdani42/nvim-tree.lua' }
 

@@ -49,7 +49,6 @@ opt.hlsearch = false -- Don't highlight search results
 g.nvim_tree_width = 50
 
 -- github / git
-require "octo".setup()
 require('gitsigns').setup()
 
 -- lsp

@@ -52,52 +52,54 @@ g.nvim_tree_width = 50
 require('gitsigns').setup()
 
 -- lsp
---local lspconfig = require('lspconfig')
--- lsp.set_log_level("debug")
-local lsp_installer = require("nvim-lsp-installer")
-lsp_installer.on_server_ready(function(server)
-  local opts = {
-    -- capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+require("mason").setup()
+require("mason-lspconfig").setup({
+  ensure_installed = {
+    "pyright",
+    "bashls",
+    "tailwindcss",
+    "eslint",
+    "tsserver"
   }
-  -- This setup() function is exactly the same as lspconfig's setup function (:help lspconfig-quickstart)
+})
+local lspconfig = require('lspconfig')
+-- TODO make project specific
+lspconfig.pyright.setup{
+  cmd = {
+    "docker",
+    "exec",
+    "-i",
+    "dev-hack",
+    "pyright-langserver",
+    "--stdio",
+  },
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        useLibraryCodeForTypes = true,
+        diagnosticMode = 'openFilesOnly',
+      },
+    },
+  },
+  before_init = function(params)
+    params.processId = vim.NIL
+  end,
+}
+lspconfig.bashls.setup {}
+lspconfig.tailwindcss.setup {}
+lspconfig.tsserver.setup {}
+lspconfig.eslint.setup {}
+-- lsp.set_log_level("debug")
+-- lspconfig.jdtls.setup {}
+-- lspconfig.terraformls.setup {}
+-- lspconfig.jsonls.setup {}
 
-  -- if server.name == "eslint" then
-  --   print(vim.inspect(opts))
-  --   opts.on_attach = function(client, bufnr)
-  --     -- neovim's LSP client does not currently support dynamic capabilities registration, so we need to set
-  --     -- the resolved capabilities of the eslint server ourselves!
-  --     -- client.resolved_capabilities.document_formatting = true
-  --   end
-  --   opts.settings = {
-  --     -- format = { enable = true }
-  --   }
-  -- end
-
-  if server.name == "tsserver" then
-    opts.on_attach = function(client, bufnr)
-      -- client.resolved_capabilities.document_formatting = false
-    end
-    opts.settings = {
-      format = { enable = false },
-    }
-  end
-
-  server:setup(opts)
-  cmd [[ do User LspAttachBuffers ]]
-end)
 
 local null_ls = require('null-ls')
 null_ls.setup({
-  debug = true,
   sources = {
-    -- null_ls.builtins.formatting.eslint,
-    --null_ls.builtins.diagnostics.eslint,
-    null_ls.builtins.formatting.black.with({
-      command = "/opt/venvs/countfire/bin/black"
-    }),
-    -- null_ls.builtins.formatting.pg_format.with({
-    --   extra_args = { "--keyword-case", "0" }
-    -- }),
+    null_ls.builtins.formatting.black,
   },
 })
 

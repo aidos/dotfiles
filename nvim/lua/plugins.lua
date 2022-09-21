@@ -28,9 +28,11 @@ require('packer').startup(function(use)
   use { 'p00f/nvim-ts-rainbow' }
   use { 'luukvbaal/stabilize.nvim' }
   use { 'onsails/lspkind-nvim' }
-
-  use { 'neovim/nvim-lspconfig' }
-  use { 'williamboman/nvim-lsp-installer' }
+  use {
+    'williamboman/mason.nvim',
+    'williamboman/mason-lspconfig.nvim',
+    'neovim/nvim-lspconfig'
+  }
   use { 'nvim-treesitter/nvim-treesitter' }
   use { 'nvim-treesitter/playground' }
   use { 'nvim-treesitter/nvim-treesitter-textobjects' }

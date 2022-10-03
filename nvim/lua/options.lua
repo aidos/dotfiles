@@ -51,6 +51,8 @@ g.nvim_tree_width = 50
 -- github / git
 require('gitsigns').setup()
 
+
+
 -- lsp
 require("mason").setup()
 require("mason-lspconfig").setup({
@@ -59,12 +61,13 @@ require("mason-lspconfig").setup({
     "bashls",
     "tailwindcss",
     "eslint",
-    "tsserver"
+    "tsserver",
+    "sumneko_lua",
   }
 })
 local lspconfig = require('lspconfig')
 -- TODO make project specific
-lspconfig.pyright.setup{
+lspconfig.pyright.setup {
   cmd = {
     "docker",
     "exec",
@@ -88,13 +91,35 @@ lspconfig.pyright.setup{
 }
 lspconfig.bashls.setup {}
 lspconfig.tailwindcss.setup {}
-lspconfig.tsserver.setup {}
+lspconfig.tsserver.setup {
+  handlers = {
+    ['textDocument/definition'] = function(err, result, method, ...)
+      -- don't include internal react definitions (react/index.d.ts)
+      if vim.tbl_islist(result) then
+        local filter = function(v)
+          return string.match(v.targetUri, '%.d.ts') == nil
+        end
+        result = vim.tbl_filter(filter, result)
+      end
+      vim.lsp.handlers['textDocument/definition'](err, result, method, ...)
+    end
+  }
+}
 lspconfig.eslint.setup {}
+lspconfig.sumneko_lua.setup {
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { 'vim' },
+      },
+      telemetry = { enable = false }
+    }
+  },
+}
 -- lsp.set_log_level("debug")
 -- lspconfig.jdtls.setup {}
 -- lspconfig.terraformls.setup {}
 -- lspconfig.jsonls.setup {}
-
 
 local null_ls = require('null-ls')
 null_ls.setup({
@@ -185,7 +210,7 @@ require('nvim-treesitter.configs').setup {
   highlight = {
     enable = true,
     disable = function(lang, bufnr)
-        return api.nvim_buf_get_option(bufnr, 'filetype') == 'html.jinja'
+      return api.nvim_buf_get_option(bufnr, 'filetype') == 'html.jinja'
     end,
 
   },
@@ -374,13 +399,13 @@ cmp.setup.cmdline('/', {
 
 local ls = require "luasnip"
 ls.config.set_config {
-    history = true,
-    -- treesitter-hl has 100, use something higher (default is 200).
-    ext_base_prio = 200,
-    -- minimal increase in priority.
-    ext_prio_increase = 1,
-    enable_autosnippets = false,
-    store_selection_keys = "<c-s>",
+  history = true,
+  -- treesitter-hl has 100, use something higher (default is 200).
+  ext_base_prio = 200,
+  -- minimal increase in priority.
+  ext_prio_increase = 1,
+  enable_autosnippets = false,
+  store_selection_keys = "<c-s>",
 }
 
 

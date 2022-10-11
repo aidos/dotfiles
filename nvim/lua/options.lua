@@ -66,16 +66,23 @@ require("mason-lspconfig").setup({
   }
 })
 local lspconfig = require('lspconfig')
--- TODO make project specific
+-- lsp.set_log_level("debug")
 lspconfig.pyright.setup {
-  cmd = {
-    "docker",
-    "exec",
-    "-i",
-    "dev-hack",
-    "pyright-langserver",
-    "--stdio",
-  },
+  on_new_config = function(new_config, root_dir)
+    if root_dir == "/var/www/countfire/rapidtender" then
+      new_config.cmd = {
+        "docker",
+        "exec",
+        "-i",
+        "dev-hack",
+        "pyright-langserver",
+        "--stdio",
+      }
+      new_config.before_init = function(params)
+        params.processId = vim.NIL
+      end
+    end
+  end,
   settings = {
     python = {
       analysis = {
@@ -85,12 +92,19 @@ lspconfig.pyright.setup {
       },
     },
   },
-  before_init = function(params)
-    params.processId = vim.NIL
-  end,
 }
+lspconfig.jdtls.setup {}
 lspconfig.bashls.setup {}
 lspconfig.tailwindcss.setup {}
+lspconfig.clangd.setup {
+  cmd = {
+    "docker",
+    "exec",
+    "-i",
+    "dev-hack",
+    "clangd",
+  },
+}
 lspconfig.tsserver.setup {
   handlers = {
     ['textDocument/definition'] = function(err, result, method, ...)
@@ -116,10 +130,6 @@ lspconfig.sumneko_lua.setup {
     }
   },
 }
--- lsp.set_log_level("debug")
--- lspconfig.jdtls.setup {}
--- lspconfig.terraformls.setup {}
--- lspconfig.jsonls.setup {}
 
 local null_ls = require('null-ls')
 null_ls.setup({

@@ -213,8 +213,8 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = {
     'python', 'typescript', 'javascript', 'tsx', 'html', 'css', 'scss',
     'java', 'lua', 'cpp', 'c', 'query', 'vim', 'bash',
-    'graphql', 'regex', 'comment', 'jsdoc',
-    'toml', 'yaml', 'cmake', 'make', 'dockerfile', 'json',
+    'graphql', 'regex', 'comment', 'jsdoc', 'sql',
+    'toml', 'yaml', 'cmake', 'make', 'dockerfile', 'json'
   },
 
   highlight = {
@@ -275,7 +275,7 @@ require('nvim-treesitter.configs').setup {
     enable = true,
     disable = {},
     updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-    persist_queries = false, -- Whether the query persists across vim sessions
+    persist_queries = true, -- Whether the query persists across vim sessions
     keybindings = {
       toggle_query_editor = 'o',
       toggle_hl_groups = 'i',

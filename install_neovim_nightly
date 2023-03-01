@@ -44,5 +44,5 @@ echo "Configuring vim"
 # run headless to get packer and all plugins running
 vi --headless
 # another run to install treesitter and language servers
-vi -c ":LspInstall eslint bashls jsonls pyright tsserver tailwindcss"
+vi -c ":MasonInstall eslint bashls jsonls pyright tsserver tailwindcss"
 

@@ -120,16 +120,16 @@ lspconfig.tsserver.setup {
   }
 }
 lspconfig.eslint.setup {}
-lspconfig.sumneko_lua.setup {
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { 'vim' },
-      },
-      telemetry = { enable = false }
-    }
-  },
-}
+-- lspconfig.sumneko_lua.setup {
+--   settings = {
+--     Lua = {
+--       diagnostics = {
+--         globals = { 'vim' },
+--       },
+--       telemetry = { enable = false }
+--     }
+--   },
+-- }
 
 local null_ls = require('null-ls')
 null_ls.setup({
@@ -213,8 +213,9 @@ require('nvim-treesitter.configs').setup {
   ensure_installed = {
     'python', 'typescript', 'javascript', 'tsx', 'html', 'css', 'scss',
     'java', 'lua', 'cpp', 'c', 'query', 'vim', 'bash',
-    'graphql', 'regex', 'comment', 'jsdoc', 'sql',
-    'toml', 'yaml', 'cmake', 'make', 'dockerfile', 'json'
+    'graphql', 'regex', 'comment', 'jsdoc',
+    'toml', 'yaml', 'cmake', 'make', 'dockerfile', 'json',
+    --'sql',
   },
 
   highlight = {

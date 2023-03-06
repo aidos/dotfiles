@@ -9,15 +9,18 @@
 	branch = auto
 	diff = auto
 	status = auto
+[pull]
+	rebase = true
 [push]
 	default = simple
+	autoSetupRemote = true
 [merge]
 	conflictstyle = diff3
-	tool = vimdiff
-[mergetool "vimdiff"]
-	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
-[difftool "vimdiff"]
-	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+;	tool = vimdiff
+;[mergetool "vimdiff"]
+;	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
+;[difftool "vimdiff"]
+;	cmd = nvim -d $BASE $LOCAL $REMOTE $MERGED -c '$wincmd w' -c 'wincmd J'
 [rerere]
 	enabled = true
 [rebase]

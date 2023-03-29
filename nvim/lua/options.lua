@@ -62,7 +62,7 @@ require("mason-lspconfig").setup({
     -- "tailwindcss",
     "eslint",
     "tsserver",
-    "sumneko_lua",
+    --"sumneko_lua",
   }
 })
 local lspconfig = require('lspconfig')
@@ -190,6 +190,7 @@ require('telescope').setup {
         ["<c-t>"] = trouble.open_with_trouble,
         ["<c-Up>"] = actions.cycle_history_prev,
         ["<c-Down>"] = actions.cycle_history_next,
+        ["<c-Space>"] = actions.to_fuzzy_refine,
       },
       n = {
         ["<c-t>"] = trouble.open_with_trouble,

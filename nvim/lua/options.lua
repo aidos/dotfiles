@@ -59,7 +59,7 @@ require("mason-lspconfig").setup({
   ensure_installed = {
     "pyright",
     "bashls",
-    -- "tailwindcss",
+    "tailwindcss",
     "eslint",
     "tsserver",
     --"sumneko_lua",
@@ -95,7 +95,7 @@ lspconfig.pyright.setup {
 }
 lspconfig.jdtls.setup {}
 lspconfig.bashls.setup {}
--- lspconfig.tailwindcss.setup {}
+lspconfig.tailwindcss.setup {}
 lspconfig.clangd.setup {
   cmd = {
     "docker",

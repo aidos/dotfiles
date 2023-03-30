@@ -216,7 +216,7 @@ require('nvim-treesitter.configs').setup {
     'java', 'lua', 'cpp', 'c', 'query', 'vim', 'bash',
     'graphql', 'regex', 'comment', 'jsdoc',
     'toml', 'yaml', 'cmake', 'make', 'dockerfile', 'json',
-    --'sql',
+    'sql',
   },
 
   highlight = {

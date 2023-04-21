@@ -62,6 +62,7 @@ require("mason-lspconfig").setup({
     "tailwindcss",
     "eslint",
     "tsserver",
+    "terraformls",
     --"sumneko_lua",
   }
 })
@@ -96,6 +97,7 @@ lspconfig.pyright.setup {
 lspconfig.jdtls.setup {}
 lspconfig.bashls.setup {}
 lspconfig.tailwindcss.setup {}
+lspconfig.terraformls.setup {}
 lspconfig.clangd.setup {
   cmd = {
     "docker",

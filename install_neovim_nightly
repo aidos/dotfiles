@@ -4,8 +4,8 @@ mkdir -p ~/.config
 ln -s ~/.dotfiles/nvim ~/.config/nvim
 
 # need lastest node / npm
-sudo apt update
-sudo apt install -y nodejs npm
+curl -sL https://deb.nodesource.com/setup_18.x | sudo bash -
+sudo apt install -y nodejs
 
 sudo apt install ripgrep
 

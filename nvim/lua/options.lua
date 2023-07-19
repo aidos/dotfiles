@@ -69,21 +69,21 @@ require("mason-lspconfig").setup({
 local lspconfig = require('lspconfig')
 -- lsp.set_log_level("debug")
 lspconfig.pyright.setup {
-  on_new_config = function(new_config, root_dir)
-    if root_dir == "/var/www/countfire/rapidtender" then
-      new_config.cmd = {
-        "docker",
-        "exec",
-        "-i",
-        "dev-hack",
-        "pyright-langserver",
-        "--stdio",
-      }
-      new_config.before_init = function(params)
-        params.processId = vim.NIL
-      end
-    end
-  end,
+  -- on_new_config = function(new_config, root_dir)
+  --   if root_dir == "/var/www/countfire/rapidtender" then
+  --     new_config.cmd = {
+  --       "docker",
+  --       "exec",
+  --       "-i",
+  --       "dev-hack",
+  --       "pyright-langserver",
+  --       "--stdio",
+  --     }
+  --     new_config.before_init = function(params)
+  --       params.processId = vim.NIL
+  --     end
+  --   end
+  -- end,
   settings = {
     python = {
       analysis = {

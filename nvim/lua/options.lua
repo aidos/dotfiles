@@ -23,7 +23,6 @@ opt.hidden = true -- Enable background buffers
 opt.ignorecase = false -- Ignore case
 opt.joinspaces = false -- No double spaces with join
 opt.list = true -- Show some invisible characters
-opt.pastetoggle = '<F2>' -- Paste mode
 opt.scrolloff = 8 -- Lines of context
 opt.shiftround = true -- Round indent
 opt.shiftwidth = indent -- Size of an indent

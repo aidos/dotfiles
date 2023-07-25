@@ -36,10 +36,6 @@ map('n', '<c-j>', '<c-w>j')
 map('n', '<c-k>', '<c-w>k')
 map('n', '<c-l>', '<c-w>l')
 
--- shortcut search and replace
-map('n', '<leader>s', ':%s///gcI<Left><Left><Left><Left>')
-map('v', '<leader>s', ':s///gcI<Left><Left><Left><Left>')
-
 -- better search in command history
 map('c', '<c-n>', 'wildmenumode() ? "\\<c-n>" : "\\<down>"', { expr = true })
 map('c', '<c-p>', 'wildmenumode() ? "\\<c-p>" : "\\<up>"', { expr = true })

@@ -54,6 +54,7 @@ map('n', '<leader>g<space>', ':Git ')
 map('n', '<leader>gd', '<cmd>Gvdiffsplit<CR>')
 map('n', '<leader>gg', '<cmd>Git<CR>')
 map('n', '<leader>gl', string.format('<cmd>term git log --graph --all --format="%s"<CR><cmd>start<CR>', log))
+map('n', '<leader>gm', '<cmd>MergetoolToggle<CR>')
 
 -- lsp
 map('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>')

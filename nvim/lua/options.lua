@@ -230,7 +230,6 @@ require('nvim-treesitter.configs').setup {
   indent = { enable = false },
   autotag = { enable = true },
   context_commentstring = { enable = true },
-  rainbow = { enable = true, extended_mode = false, },
 
   textsubjects = {
     enable = true,

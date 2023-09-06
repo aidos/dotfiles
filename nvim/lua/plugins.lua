@@ -25,7 +25,6 @@ require('packer').startup(function(use)
   use { 'norcalli/nvim-colorizer.lua' }
   use { 'nvim-lua/popup.nvim' }
   use { 'ntpeters/vim-better-whitespace' }
-  use { 'p00f/nvim-ts-rainbow' }
   use { 'luukvbaal/stabilize.nvim' }
   use { 'onsails/lspkind-nvim' }
   use {

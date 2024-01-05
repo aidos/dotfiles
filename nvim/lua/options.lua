@@ -62,6 +62,7 @@ require("mason-lspconfig").setup({
     "eslint",
     "tsserver",
     "terraformls",
+    "yamlls",
     --"sumneko_lua",
   }
 })
@@ -97,6 +98,7 @@ lspconfig.jdtls.setup {}
 lspconfig.bashls.setup {}
 lspconfig.tailwindcss.setup {}
 lspconfig.terraformls.setup {}
+lspconfig.yamlls.setup {}
 lspconfig.clangd.setup {
   cmd = {
     "docker",
@@ -210,6 +212,7 @@ require('telescope').setup {
 require('telescope').load_extension('fzf')
 
 
+
 -- tree-sitter
 require('nvim-treesitter.configs').setup {
   ensure_installed = {
@@ -229,7 +232,6 @@ require('nvim-treesitter.configs').setup {
   },
   indent = { enable = false },
   autotag = { enable = true },
-  context_commentstring = { enable = true },
 
   textsubjects = {
     enable = true,

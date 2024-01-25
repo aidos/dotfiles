@@ -56,6 +56,7 @@ require('gitsigns').setup()
 require("mason").setup()
 require("mason-lspconfig").setup({
   ensure_installed = {
+    "ruff_lsp",
     "pyright",
     "bashls",
     "tailwindcss",
@@ -68,6 +69,7 @@ require("mason-lspconfig").setup({
 })
 local lspconfig = require('lspconfig')
 -- lsp.set_log_level("debug")
+lspconfig.ruff_lsp.setup{}
 lspconfig.pyright.setup {
   -- on_new_config = function(new_config, root_dir)
   --   if root_dir == "/var/www/countfire/rapidtender" then
@@ -134,12 +136,12 @@ lspconfig.eslint.setup {}
 --   },
 -- }
 
-local null_ls = require('null-ls')
-null_ls.setup({
-  sources = {
-    null_ls.builtins.formatting.black,
-  },
-})
+-- local null_ls = require('null-ls')
+-- null_ls.setup({
+--   sources = {
+--     null_ls.builtins.formatting.black,
+--   },
+-- })
 
 
 -- trouble

@@ -463,6 +463,13 @@ augroup AutoCompileLatex
 augroup END
 ]])
 
+vim.diagnostic.config({
+    float = {
+    source = 'always',
+    border = border
+  },
+})
+
 lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(
   lsp.diagnostic.on_publish_diagnostics,
   {

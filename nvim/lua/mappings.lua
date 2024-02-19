@@ -20,6 +20,7 @@ map('n', '<leader>v', '"+p')
 map('v', '<leader>c', "y:call SendViaOSC52(getreg('\"'))<cr>", { silent = true })
 
 map('i', 'jj', '<ESC>')
+map('i', 'jk', '<ESC>')
 -- Y to act like D and C
 map('n', 'Y', 'y$')
 -- nicer up / down on wrapped lines
@@ -39,6 +40,7 @@ map('n', '<c-l>', '<c-w>l')
 -- better search in command history
 map('c', '<c-n>', 'wildmenumode() ? "\\<c-n>" : "\\<down>"', { expr = true })
 map('c', '<c-p>', 'wildmenumode() ? "\\<c-p>" : "\\<up>"', { expr = true })
+map('n', 'Q', 'q:')
 
 -- telescope
 map('n', '<leader>ff', '<cmd>Telescope find_files<CR>')

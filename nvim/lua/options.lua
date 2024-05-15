@@ -506,7 +506,6 @@ lsp.handlers['textDocument/publishDiagnostics'] = lsp.with(
     underline = true,
     virtual_text = {
       spacing = 5,
-      severity_limit = 'Warning',
     },
     update_in_insert = false,
   }

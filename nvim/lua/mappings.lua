@@ -49,8 +49,9 @@ map('n', '<leader>fg', '<cmd>lua require("telescope").extensions.live_grep_args.
 map('n', '<leader>fw', '<cmd>Telescope grep_string<CR>')
 map('n', '<leader>fb', '<cmd>Telescope current_buffer_fuzzy_find<CR>')
 map('n', '<leader>fo', '<cmd>Telescope buffers<CR>')
-map('n', '<leader>ft', '<cmd>Telescope builtin<CR>')
 map('n', '<leader>fq', '<cmd>Telescope quickfix<CR>')
+map('n', '<leader>fs', '<cmd>Telescope lsp_document_symbols<CR>')
+map('n', '<leader>ft', '<cmd>Telescope builtin<CR>')
 
 ---- fugitive and git
 local log = [[\%C(yellow)\%h\%Cred\%d \%Creset\%s \%Cgreen(\%ar) \%Cblue\%an\%Creset]]

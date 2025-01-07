@@ -66,8 +66,22 @@ require('packer').startup(function(use)
   use { 'lewis6991/gitsigns.nvim' }
 
   use { 'kyazdani42/nvim-tree.lua' }
+  use {
+    'folke/zen-mode.nvim',
+    config = function()
+      require("zen-mode").setup({
+        window = {
+          width = 200,
+        },
+      })
+    end
+  }
 
   use { 'aidos/vim-simpledb' }
+
+  use({
+    'github/copilot.vim',
+  })
 
   if first_run then
     require('packer').sync()

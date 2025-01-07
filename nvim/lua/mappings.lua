@@ -44,6 +44,7 @@ map('n', 'Q', 'q:')
 
 -- telescope
 map('n', '<leader>ff', '<cmd>Telescope find_files<CR>')
+map('n', '<leader>fu', '<cmd>Telescope registers<CR>')
 map('n', '<leader>fF', '<cmd>lua require("telescope.builtin").find_files({ hidden = true, no_ignore = true })<CR>')
 map('n', '<leader>fg', '<cmd>lua require("telescope").extensions.live_grep_args.live_grep_args()<CR>')
 map('n', '<leader>fw', '<cmd>Telescope grep_string<CR>')
@@ -76,7 +77,7 @@ map('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
 --map('n', 'gs', '<cmd>Telescope lsp_document_symbols<CR>')
 
 -- trouble
-map('n', '<leader>xx', '<cmd>TroubleToggle<cr>')
+map('n', '<leader>xx', '<cmd>Trouble toggle<cr>')
 map('n', '<leader>xw', '<cmd>Trouble workspace_diagnostics<cr>')
 map('n', '<leader>xd', '<cmd>Trouble document_diagnostics<cr>')
 map('n', '<leader>xq', '<cmd>Trouble quickfix<cr>')

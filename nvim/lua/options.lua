@@ -56,12 +56,12 @@ require('gitsigns').setup()
 require("mason").setup()
 require("mason-lspconfig").setup({
   ensure_installed = {
-    "ruff_lsp",
+    "ruff",
     "pyright",
     "bashls",
     "tailwindcss",
     "eslint",
-    "tsserver",
+    "ts_ls",
     "terraformls",
     "yamlls",
     --"sumneko_lua",
@@ -69,7 +69,7 @@ require("mason-lspconfig").setup({
 })
 local lspconfig = require('lspconfig')
 -- lsp.set_log_level("debug")
-lspconfig.ruff_lsp.setup{}
+lspconfig.ruff.setup{}
 lspconfig.pyright.setup {
   -- on_new_config = function(new_config, root_dir)
   --   if root_dir == "/var/www/countfire/rapidtender" then
@@ -110,7 +110,7 @@ lspconfig.clangd.setup {
     "clangd",
   },
 }
-lspconfig.tsserver.setup {
+lspconfig.ts_ls.setup {
   handlers = {
     ['textDocument/definition'] = function(err, result, method, ...)
       -- don't include internal react definitions (react/index.d.ts)
@@ -136,16 +136,13 @@ lspconfig.eslint.setup {}
 --   },
 -- }
 
--- local null_ls = require('null-ls')
--- null_ls.setup({
---   sources = {
---     null_ls.builtins.formatting.black,
---   },
--- })
-
 
 -- trouble
-require 'trouble'.setup {}
+require 'trouble'.setup {
+  focus = true,
+  follow = false,
+  auto_jump = true,
+}
 
 
 -- telescope
@@ -192,13 +189,13 @@ require('telescope').setup {
       i = {
         ["<c-x>"] = false,
         ["<c-q>"] = actions.send_to_qflist,
-        ["<c-t>"] = trouble.open_with_trouble,
+        ["<c-t>"] = require("trouble.sources.telescope").open,
         ["<c-Up>"] = actions.cycle_history_prev,
         ["<c-Down>"] = actions.cycle_history_next,
         ["<c-Space>"] = actions.to_fuzzy_refine,
       },
       n = {
-        ["<c-t>"] = trouble.open_with_trouble,
+        ["<c-t>"] = require("trouble.sources.telescope").open,
       },
     },
     file_ignore_patterns = { "node_modules" }

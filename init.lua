@@ -23,16 +23,18 @@ vim.opt.mouse = "a"
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
--- Copy to system clipboard with <leader>c
+-- Copy to system clipboard with <leader>y
+vim.keymap.set("v", "<leader>y", '"+y', { desc = "Copy selection to clipboard" })
+vim.keymap.set("n", "<leader>y", 'V"+y', { desc = "Copy line to clipboard" })
 vim.schedule(function()
   -- Helper function to base64 encode in pure Lua
   local function base64_encode(data)
-    local b = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    local alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
     return (
       (data:gsub(".", function(x)
-        local r, b = "", x:byte()
+        local r, byte = "", x:byte()
         for i = 8, 1, -1 do
-          r = r .. (b % 2 ^ i - b % 2 ^ (i - 1) > 0 and "1" or "0")
+          r = r .. (byte % 2 ^ i - byte % 2 ^ (i - 1) > 0 and "1" or "0")
         end
         return r
       end) .. "0000"):gsub("%d%d%d?%d?%d?%d?", function(x)
@@ -43,30 +45,27 @@ vim.schedule(function()
         for i = 1, 6 do
           c = c + (x:sub(i, i) == "1" and 2 ^ (6 - i) or 0)
         end
-        return b:sub(c + 1, c + 1)
+        return alphabet:sub(c + 1, c + 1)
       end) .. ({ "", "==", "=" })[#data % 3 + 1]
     )
+  end
+
+  -- Copy to system clipboard with OSC 52 escape sequence
+  -- This should work automatically but it's not not being detected for some reason
+  local function copy_with_osc52(lines)
+    local text = table.concat(lines, "\n")
+    if #text > 0 then
+      local encoded = base64_encode(text)
+      vim.fn.chansend(vim.v.stderr, string.format("\x1b]52;c;%s\x07", encoded))
+    end
+    return 0
   end
 
   vim.g.clipboard = {
     name = "OSC 52",
     copy = {
-      ["+"] = function(lines)
-        local text = table.concat(lines, "\n")
-        if #text > 0 then
-          local encoded = base64_encode(text)
-          vim.fn.chansend(vim.v.stderr, string.format("\x1b]52;c;%s\x07", encoded))
-        end
-        return 0
-      end,
-      ["*"] = function(lines)
-        local text = table.concat(lines, "\n")
-        if #text > 0 then
-          local encoded = base64_encode(text)
-          vim.fn.chansend(vim.v.stderr, string.format("\x1b]52;c;%s\x07", encoded))
-        end
-        return 0
-      end,
+      ["+"] = copy_with_osc52,
+      ["*"] = copy_with_osc52,
     },
     paste = {
       ["+"] = function()
@@ -78,7 +77,6 @@ vim.schedule(function()
     },
   }
 end)
-vim.keymap.set("v", "<leader>c", '"+y')
 
 --- Enable break indent
 vim.opt.breakindent = true
@@ -223,7 +221,7 @@ require("lazy").setup({
 
       -- Document existing key chains
       spec = {
-        { "<leader>c", group = "[C]ode", mode = { "n", "x" } },
+        { "<leader>l", group = "[L]anguage", mode = { "n", "x" } },
         { "<leader>d", group = "[D]ocument" },
         { "<leader>r", group = "[R]ename" },
         { "<leader>s", group = "[S]earch" },
@@ -393,7 +391,7 @@ require("lazy").setup({
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
-          map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
+          map("<leader>la", vim.lsp.buf.code_action, "[L]anguage [A]ction", { "n", "x" })
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
           --  For example, in C this would take you to the header.

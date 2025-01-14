@@ -1,7 +1,6 @@
 -- TODO
 --  - return to last position on buffer open
 --  - commandline ctrl-p
---  - copy to remote clipboard
 --  - git / merge
 --  - snippets,
 --  - simple db

@@ -23,26 +23,64 @@ vim.opt.mouse = "a"
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
--- Sync clipboard between OS and Neovim.
---  Schedule the setting after `UiEnter` because it can increase startup-time.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
+-- Copy to system clipboard with <leader>c
 vim.schedule(function()
-  -- vim.opt.clipboard = "unnamedplus"
-  -- vim.g.clipboard = {
-  -- 	name = "OSC 52",
-  -- 	copy = {
-  -- 		["+"] = require("vim.clipboard.osc52").copy,
-  -- 		["*"] = require("vim.clipboard.osc52").copy,
-  -- 	},
-  -- 	paste = {
-  -- 		["+"] = require("vim.clipboard.osc52").paste,
-  -- 		["*"] = require("vim.clipboard.osc52").paste,
-  -- 	},
-  -- }
-end)
+  -- Helper function to base64 encode in pure Lua
+  local function base64_encode(data)
+    local b = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+    return (
+      (data:gsub(".", function(x)
+        local r, b = "", x:byte()
+        for i = 8, 1, -1 do
+          r = r .. (b % 2 ^ i - b % 2 ^ (i - 1) > 0 and "1" or "0")
+        end
+        return r
+      end) .. "0000"):gsub("%d%d%d?%d?%d?%d?", function(x)
+        if #x < 6 then
+          return ""
+        end
+        local c = 0
+        for i = 1, 6 do
+          c = c + (x:sub(i, i) == "1" and 2 ^ (6 - i) or 0)
+        end
+        return b:sub(c + 1, c + 1)
+      end) .. ({ "", "==", "=" })[#data % 3 + 1]
+    )
+  end
 
--- Enable break indent
+  vim.g.clipboard = {
+    name = "OSC 52",
+    copy = {
+      ["+"] = function(lines)
+        local text = table.concat(lines, "\n")
+        if #text > 0 then
+          local encoded = base64_encode(text)
+          vim.fn.chansend(vim.v.stderr, string.format("\x1b]52;c;%s\x07", encoded))
+        end
+        return 0
+      end,
+      ["*"] = function(lines)
+        local text = table.concat(lines, "\n")
+        if #text > 0 then
+          local encoded = base64_encode(text)
+          vim.fn.chansend(vim.v.stderr, string.format("\x1b]52;c;%s\x07", encoded))
+        end
+        return 0
+      end,
+    },
+    paste = {
+      ["+"] = function()
+        return { "" }
+      end,
+      ["*"] = function()
+        return { "" }
+      end,
+    },
+  }
+end)
+vim.keymap.set("v", "<leader>c", '"+y')
+
+--- Enable break indent
 vim.opt.breakindent = true
 
 -- Save undo history

@@ -1,3 +1,15 @@
+-- TODO
+--  - return to last position on buffer open
+--  - commandline ctrl-p
+--  - copy to remote clipboard
+--  - git / merge
+--  - snippets,
+--  - simple db
+--  - whitespace stripping (autoformat can do this)
+--  - multiline editing
+--  - disable search highlight?
+--  - treesitter query to highlight sql in python
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 

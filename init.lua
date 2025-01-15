@@ -26,45 +26,12 @@ vim.opt.showmode = false
 vim.keymap.set("v", "<leader>y", '"+y', { desc = "Copy selection to clipboard" })
 vim.keymap.set("n", "<leader>y", 'V"+y', { desc = "Copy line to clipboard" })
 vim.schedule(function()
-  -- Helper function to base64 encode in pure Lua
-  local function base64_encode(data)
-    local alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
-    return (
-      (data:gsub(".", function(x)
-        local r, byte = "", x:byte()
-        for i = 8, 1, -1 do
-          r = r .. (byte % 2 ^ i - byte % 2 ^ (i - 1) > 0 and "1" or "0")
-        end
-        return r
-      end) .. "0000"):gsub("%d%d%d?%d?%d?%d?", function(x)
-        if #x < 6 then
-          return ""
-        end
-        local c = 0
-        for i = 1, 6 do
-          c = c + (x:sub(i, i) == "1" and 2 ^ (6 - i) or 0)
-        end
-        return alphabet:sub(c + 1, c + 1)
-      end) .. ({ "", "==", "=" })[#data % 3 + 1]
-    )
-  end
-
-  -- Copy to system clipboard with OSC 52 escape sequence
-  -- This should work automatically but it's not not being detected for some reason
-  local function copy_with_osc52(lines)
-    local text = table.concat(lines, "\n")
-    if #text > 0 then
-      local encoded = base64_encode(text)
-      vim.fn.chansend(vim.v.stderr, string.format("\x1b]52;c;%s\x07", encoded))
-    end
-    return 0
-  end
-
+  -- vim.opt.clipboard = "unnamedplus"
   vim.g.clipboard = {
     name = "OSC 52",
     copy = {
-      ["+"] = copy_with_osc52,
-      ["*"] = copy_with_osc52,
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
     },
     paste = {
       ["+"] = function()

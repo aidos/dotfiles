@@ -87,7 +87,12 @@ vim.opt.scrolloff = 10
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
+-- Don't highlight search results
+-- vim.opt.hlsearch = false
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+
+-- jk / jj to leave insert mode
+vim.keymap.set("i", "jk", "<Esc>", { desc = "Leave insert mode with 'jk'" })
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
@@ -662,10 +667,22 @@ require("lazy").setup({
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     "folke/tokyonight.nvim",
     priority = 1000, -- Make sure to load this before all the other start plugins.
+    opts = {
+      -- styles = {
+      --   comments = { italic = true },
+      -- },
+      -- Make comments more visible by adjusting their color
+      -- on_colors = function(colors)
+      --   -- Brighten the default comment color
+      --   -- colors.comment = "#8b93c7"
+      -- end,
+      -- vim.cmd.hi("Comment gui=none"),
+    },
     init = function()
       vim.cmd.colorscheme("tokyonight-moon")
-      -- You can configure highlights by doing something like:
-      vim.cmd.hi("Comment gui=none")
+      -- Make Copilot / comments more readable
+      vim.api.nvim_set_hl(0, "CopilotSuggestion", { fg = "#737aa2" })
+      vim.api.nvim_set_hl(0, "Comment", { fg = "#737aa2" })
     end,
   },
 

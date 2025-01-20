@@ -1,12 +1,10 @@
 -- TODO
---  - return to last position on buffer open
 --  - commandline ctrl-p
 --  - git / merge
 --  - snippets,
 --  - simple db
 --  - whitespace stripping (autoformat can do this)
 --  - multiline editing
---  - disable search highlight?
 --  - treesitter query to highlight sql in python
 
 vim.g.mapleader = " "
@@ -86,9 +84,6 @@ vim.opt.scrolloff = 10
 --  See `:help vim.keymap.set()`
 
 -- Clear highlights on search when pressing <Esc> in normal mode
---  See `:help hlsearch`
--- Don't highlight search results
--- vim.opt.hlsearch = false
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- jk / jj to leave insert mode
@@ -108,6 +103,23 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
+
+-- Return to last edit position when opening a file
+vim.api.nvim_create_autocmd("BufReadPost", {
+  desc = "Open file at the last position it was edited earlier and center",
+  group = vim.api.nvim_create_augroup("last_loc", { clear = true }),
+  callback = function()
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+      -- Use vim.schedule to ensure the cursor movement happens after the buffer is properly loaded
+      vim.schedule(function()
+        vim.cmd("normal! zz")
+      end)
+    end
+  end,
+})
 
 -- Highlight when yanking (copying) text
 --  Try it with `yap` in normal mode

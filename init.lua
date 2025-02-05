@@ -1,11 +1,12 @@
 -- TODO
+--  - better lsp goto (ref to ignore def and def on component to ignore react type)
 --  - commandline ctrl-p
 --  - git / merge
 --  - snippets,
---  - simple db
 --  - whitespace stripping (autoformat can do this)
 --  - multiline editing
 --  - treesitter query to highlight sql in python
+--  - no highlights etc in big files / pdfs
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -88,6 +89,7 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- jk / jj to leave insert mode
 vim.keymap.set("i", "jk", "<Esc>", { desc = "Leave insert mode with 'jk'" })
+vim.keymap.set("i", "jj", "<Esc>", { desc = "Leave insert mode with 'jj'" })
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
@@ -478,6 +480,12 @@ require("lazy").setup({
           },
         },
 
+        -- Biome for JavaScript/TypeScript
+        biome = {
+          -- settings = {
+          -- },
+        },
+
         lua_ls = {
           settings = {
             Lua = {
@@ -499,14 +507,24 @@ require("lazy").setup({
         "typescript-language-server", -- For TypeScript/JavaScript/CSS formatting
         "prettier", -- For TypeScript/JavaScript/CSS formatting
         "eslint_d", -- Fast ESLint
+        "biome",
         "shellcheck",
         "bash-language-server",
       })
       require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
+      -- List of servers that should never start
+      local disabled_servers = {
+        biome = true,
+      }
+
       require("mason-lspconfig").setup({
         handlers = {
           function(server_name)
+            -- Skip disabled servers
+            if disabled_servers[server_name] then
+              return
+            end
             local server = servers[server_name] or {}
             -- This handles overriding only values explicitly passed
             -- by the server configuration above. Useful when disabling
@@ -556,13 +574,13 @@ require("lazy").setup({
       formatters_by_ft = {
         lua = { "stylua" },
         python = { "ruff_format" },
-        -- javascript = { "prettier" },
-        -- typescript = { "prettier" },
-        -- javascriptreact = { "prettier" },
-        -- typescriptreact = { "prettier" },
-        -- css = { "prettier" },
-        -- html = { "prettier" },
-        -- json = { "prettier" },
+        -- javascript = { "biome" },
+        -- typescript = { "biome" },
+        -- javascriptreact = { "biome" },
+        -- typescriptreact = { "biome" },
+        -- json = { "biome" },
+        -- css = { "biome" },
+        -- html = { "biome" },
         -- yaml = { "prettier" },
         -- markdown = { "prettier" },
       },
@@ -843,6 +861,7 @@ require("lazy").setup({
       },
     },
   },
+  { "aidos/vim-simpledb" },
 })
 
 -- vim: ts=2 sts=2 sw=2 et

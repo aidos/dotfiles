@@ -248,9 +248,6 @@ require("lazy").setup({
         --  All the info you're looking for is in `:help telescope.setup()`
         --
         defaults = {
-          path_display = {
-            "smart",
-          },
           -- mappings = {
           --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
           -- },
@@ -474,17 +471,14 @@ require("lazy").setup({
         cssls = {},
 
         -- ESLint for TypeScript/JavaScript
-        eslint = {
-          settings = {
-            workingDirectory = { mode = "auto" },
-          },
-        },
+        -- eslint = {
+        --   settings = {
+        --     workingDirectory = { mode = "auto" },
+        --   },
+        -- },
 
         -- Biome for JavaScript/TypeScript
-        biome = {
-          -- settings = {
-          -- },
-        },
+        biome = {},
 
         lua_ls = {
           settings = {
@@ -505,8 +499,6 @@ require("lazy").setup({
         "stylua", -- Used to format Lua code
         "ruff", -- Python linter/formatter
         "typescript-language-server", -- For TypeScript/JavaScript/CSS formatting
-        "prettier", -- For TypeScript/JavaScript/CSS formatting
-        "eslint_d", -- Fast ESLint
         "biome",
         "shellcheck",
         "bash-language-server",
@@ -515,7 +507,7 @@ require("lazy").setup({
 
       -- List of servers that should never start
       local disabled_servers = {
-        biome = true,
+        eslint_d = true,
       }
 
       require("mason-lspconfig").setup({
@@ -552,7 +544,8 @@ require("lazy").setup({
       },
     },
     opts = {
-      notify_on_error = false,
+      notify_on_error = true,
+      notify_no_formatters = true,
       format_on_save = function(bufnr)
         -- Toogle with FormatDisable / FormatEnable (see below)
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
@@ -574,13 +567,13 @@ require("lazy").setup({
       formatters_by_ft = {
         lua = { "stylua" },
         python = { "ruff_format" },
-        -- javascript = { "biome" },
-        -- typescript = { "biome" },
-        -- javascriptreact = { "biome" },
-        -- typescriptreact = { "biome" },
-        -- json = { "biome" },
-        -- css = { "biome" },
-        -- html = { "biome" },
+        javascript = { "biome-check" },
+        typescript = { "biome-check" },
+        javascriptreact = { "biome-check" },
+        typescriptreact = { "biome-check" },
+        json = { "biome-check" },
+        css = { "biome-check" },
+        html = { "biome-check" },
         -- yaml = { "prettier" },
         -- markdown = { "prettier" },
       },

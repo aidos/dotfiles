@@ -470,13 +470,6 @@ require("lazy").setup({
         html = {},
         cssls = {},
 
-        -- ESLint for TypeScript/JavaScript
-        -- eslint = {
-        --   settings = {
-        --     workingDirectory = { mode = "auto" },
-        --   },
-        -- },
-
         -- Biome for JavaScript/TypeScript
         biome = {},
 
@@ -490,31 +483,28 @@ require("lazy").setup({
             },
           },
         },
+
+        stylua = {},
+        shellcheck = {},
       }
+
+      -- Mason installation names -> LSP config names mapping
+      local mason_to_lspconfig = {
+        ["typescript-language-server"] = "ts_ls",
+        ["bash-language-server"] = "bashls",
+      }
+      for mason_name, lspconfig_name in pairs(mason_to_lspconfig) do
+        servers[mason_name] = servers[lspconfig_name] or {}
+      end
 
       require("mason").setup()
-
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        "stylua", -- Used to format Lua code
-        "ruff", -- Python linter/formatter
-        "typescript-language-server", -- For TypeScript/JavaScript/CSS formatting
-        "biome",
-        "shellcheck",
-        "bash-language-server",
-      })
-      require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-
-      -- List of servers that should never start
-      local disabled_servers = {
-        eslint_d = true,
-      }
+      require("mason-tool-installer").setup({ ensure_installed = vim.tbl_keys(servers) })
 
       require("mason-lspconfig").setup({
         handlers = {
           function(server_name)
             -- Skip disabled servers
-            if disabled_servers[server_name] then
+            if not servers[server_name] then
               return
             end
             local server = servers[server_name] or {}
@@ -566,7 +556,7 @@ require("lazy").setup({
       end,
       formatters_by_ft = {
         lua = { "stylua" },
-        python = { "ruff_format" },
+        python = { "ruff_fix", "ruff_format" },
         javascript = { "biome-check" },
         typescript = { "biome-check" },
         javascriptreact = { "biome-check" },
@@ -707,7 +697,8 @@ require("lazy").setup({
     init = function()
       vim.cmd.colorscheme("tokyonight-moon")
       -- Make Copilot / comments more readable
-      vim.api.nvim_set_hl(0, "CopilotSuggestion", { fg = "#737aa2" })
+      local colors = require("tokyonight.colors").setup()
+      vim.api.nvim_set_hl(0, "CopilotSuggestion", { fg = colors.magenta })
       vim.api.nvim_set_hl(0, "Comment", { fg = "#737aa2" })
     end,
   },

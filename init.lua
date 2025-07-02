@@ -6,7 +6,6 @@
 --  - whitespace stripping (autoformat can do this)
 --  - multiline editing
 --  - treesitter query to highlight sql in python
---  - no highlights etc in big files / pdfs
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -119,6 +118,52 @@ vim.api.nvim_create_autocmd("BufReadPost", {
       vim.schedule(function()
         vim.cmd("normal! zz")
       end)
+    end
+  end,
+})
+
+-- Disable syntax highlighting and other features for big files (>5MB)
+local function disable_syntax_treesitter()
+  -- Disable Tree-sitter features
+  pcall(function()
+    local ts_utils = require("nvim-treesitter.ts_utils")
+    if ts_utils then
+      vim.treesitter.stop(0)
+    end
+  end)
+
+  -- Disable syntax and folding
+  vim.opt_local.foldmethod = "manual"
+  vim.cmd("syntax clear")
+  vim.opt_local.syntax = "off"
+  vim.opt_local.filetype = ""
+
+  -- Disable file features that can slow down large files
+  vim.opt_local.undofile = false
+  vim.opt_local.swapfile = false
+end
+
+-- Disable all features for PDF files (they're usually large and don't need syntax highlighting)
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile", "FileType" }, {
+  desc = "Disable all features for PDF files",
+  group = vim.api.nvim_create_augroup("pdf_no_features", { clear = true }),
+  pattern = "*.pdf",
+  callback = function()
+    vim.schedule(function()
+      print("PDF file detected, disabling features for performance")
+      disable_syntax_treesitter()
+    end)
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+  desc = "Disable syntax highlighting and features for big files",
+  group = vim.api.nvim_create_augroup("big_file_disable", { clear = true }),
+  callback = function()
+    local file_size = vim.fn.getfsize(vim.fn.expand("%"))
+    if file_size > 5 * 1024 * 1024 then -- 5MB
+      print("Big file detected, disabling features for performance")
+      disable_syntax_treesitter()
     end
   end,
 })

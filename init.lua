@@ -518,6 +518,10 @@ require("lazy").setup({
         -- Biome for JavaScript/TypeScript
         biome = {},
 
+        terraformls = {
+          filetypes = { "terraform", "terraform-vars" },
+        },
+
         lua_ls = {
           settings = {
             Lua = {
@@ -609,6 +613,8 @@ require("lazy").setup({
         json = { "biome-check" },
         css = { "biome-check" },
         html = { "biome-check" },
+        terraform = { "terraform_fmt" },
+        hcl = { "terraform_fmt" },
         -- yaml = { "prettier" },
         -- markdown = { "prettier" },
       },

@@ -361,20 +361,34 @@ require("lazy").setup({
     },
   },
   { "Bilal2453/luvit-meta", lazy = true },
+  -- LSP Setup
   {
-    -- Main LSP Configuration
+    "williamboman/mason.nvim",
+    opts = {},
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "williamboman/mason.nvim" },
+    opts = {
+      ensure_installed = {
+        "pyright",
+        "ruff",
+        "ts_ls",
+        "tailwindcss",
+        "html",
+        "cssls",
+        "biome",
+        "terraformls",
+        "lua_ls",
+        "bashls",
+      },
+    },
+  },
+  {
     "neovim/nvim-lspconfig",
     dependencies = {
-      -- Automatically install LSPs and related tools to stdpath for Neovim
-      { "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
       "williamboman/mason-lspconfig.nvim",
-      "WhoIsSethDaniel/mason-tool-installer.nvim",
-
-      -- Useful status updates for LSP.
-      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { "j-hui/fidget.nvim", opts = {} },
-
-      -- Allows extra capabilities provided by nvim-cmp
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
@@ -479,105 +493,72 @@ require("lazy").setup({
       end
       vim.diagnostic.config({ signs = { text = diagnostic_signs } })
 
-      -- LSP servers and clients are able to communicate to each other what features they support.
-      --  By default, Neovim doesn't support everything that is in the LSP specification.
-      --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-      --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+      -- Configure LSP capabilities for nvim-cmp integration
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-      local servers = {
-        -- Python
-        pyright = {
-          settings = {
-            python = {
-              analysis = {
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
-                diagnosticMode = "openFilesOnly",
-              },
+      -- Python
+      vim.lsp.config("pyright", {
+        capabilities = capabilities,
+        settings = {
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = "openFilesOnly",
             },
           },
         },
-        ruff = {
-          settings = {
-            organizeImports = true,
-          },
+      })
+
+      vim.lsp.config("ruff", {
+        capabilities = capabilities,
+        settings = {
+          organizeImports = true,
         },
+      })
 
-        -- TypeScript
-        ts_ls = {
-          handlers = {
-            ["textDocument/definition"] = function(err, result, method, ...)
-              -- don't include internal react definitions (react/index.d.ts)
-              if vim.tbl_islist(result) then
-                local filter = function(v)
-                  return string.match(v.targetUri, "%.d.ts") == nil
-                end
-                result = vim.tbl_filter(filter, result)
-              end
-              vim.lsp.handlers["textDocument/definition"](err, result, method, ...)
-            end,
-          },
-        },
-
-        -- Tailwind
-        tailwindcss = {},
-
-        -- HTML/CSS for better Tailwind support
-        html = {},
-        cssls = {},
-
-        -- Biome for JavaScript/TypeScript
-        biome = {},
-
-        terraformls = {
-          filetypes = { "terraform", "terraform-vars" },
-        },
-
-        lua_ls = {
-          settings = {
-            Lua = {
-              completion = {
-                callSnippet = "Replace",
-              },
-              diagnostics = { disable = { "missing-fields" } },
-            },
-          },
-        },
-
-        stylua = {},
-        shellcheck = {},
-      }
-
-      -- Mason installation names -> LSP config names mapping
-      local mason_to_lspconfig = {
-        ["typescript-language-server"] = "ts_ls",
-        ["bash-language-server"] = "bashls",
-      }
-      for mason_name, lspconfig_name in pairs(mason_to_lspconfig) do
-        servers[mason_name] = servers[lspconfig_name] or {}
-      end
-
-      require("mason").setup()
-      require("mason-tool-installer").setup({ ensure_installed = vim.tbl_keys(servers) })
-
-      require("mason-lspconfig").setup({
+      -- TypeScript with custom definition handler
+      vim.lsp.config("ts_ls", {
+        capabilities = capabilities,
         handlers = {
-          function(server_name)
-            -- Skip disabled servers
-            if not servers[server_name] then
-              return
+          ["textDocument/definition"] = function(err, result, method, ...)
+            -- don't include internal react definitions (react/index.d.ts)
+            if vim.tbl_islist(result) then
+              local filter = function(v)
+                return string.match(v.targetUri, "%.d.ts") == nil
+              end
+              result = vim.tbl_filter(filter, result)
             end
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-            require("lspconfig")[server_name].setup(server)
+            vim.lsp.handlers["textDocument/definition"](err, result, method, ...)
           end,
         },
       })
+
+      -- Terraform
+      vim.lsp.config("terraformls", {
+        capabilities = capabilities,
+        filetypes = { "terraform", "terraform-vars" },
+      })
+
+      -- Lua
+      vim.lsp.config("lua_ls", {
+        capabilities = capabilities,
+        settings = {
+          Lua = {
+            completion = {
+              callSnippet = "Replace",
+            },
+            diagnostics = { disable = { "missing-fields" } },
+          },
+        },
+      })
+
+      -- Other servers with default config
+      local default_servers = { "tailwindcss", "html", "cssls", "biome", "bashls" }
+      for _, server in ipairs(default_servers) do
+        vim.lsp.config(server, { capabilities = capabilities })
+      end
     end,
   },
 

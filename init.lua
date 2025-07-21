@@ -506,7 +506,20 @@ require("lazy").setup({
         },
 
         -- TypeScript
-        ts_ls = {},
+        ts_ls = {
+          handlers = {
+            ["textDocument/definition"] = function(err, result, method, ...)
+              -- don't include internal react definitions (react/index.d.ts)
+              if vim.tbl_islist(result) then
+                local filter = function(v)
+                  return string.match(v.targetUri, "%.d.ts") == nil
+                end
+                result = vim.tbl_filter(filter, result)
+              end
+              vim.lsp.handlers["textDocument/definition"](err, result, method, ...)
+            end,
+          },
+        },
 
         -- Tailwind
         tailwindcss = {},

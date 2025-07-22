@@ -20,6 +20,9 @@ vim.opt.mouse = "a"
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
+-- get double borders in telescope etc if I try to apply globally
+-- vim.o.winborder = "single"
+
 -- Copy to system clipboard with <leader>y
 vim.keymap.set("v", "<leader>y", '"+y', { desc = "Copy selection to clipboard" })
 vim.keymap.set("n", "<leader>y", 'V"+y', { desc = "Copy line to clipboard" })
@@ -344,6 +347,12 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>sn", function()
         builtin.find_files({ cwd = vim.fn.stdpath("config") })
       end, { desc = "[S]earch [N]eovim files" })
+
+      vim.keymap.set("n", "K", function()
+        vim.lsp.buf.hover({
+          border = "single",
+        })
+      end)
     end,
   },
 
@@ -371,7 +380,7 @@ require("lazy").setup({
     dependencies = { "williamboman/mason.nvim" },
     opts = {
       ensure_installed = {
-        "pyright",
+        -- "pyright",
         "ruff",
         "ts_ls",
         "tailwindcss",
@@ -498,18 +507,18 @@ require("lazy").setup({
       capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
       -- Python
-      vim.lsp.config("pyright", {
-        capabilities = capabilities,
-        settings = {
-          python = {
-            analysis = {
-              autoSearchPaths = true,
-              useLibraryCodeForTypes = true,
-              diagnosticMode = "openFilesOnly",
-            },
-          },
-        },
-      })
+      -- vim.lsp.config("pyright", {
+      --   capabilities = capabilities,
+      --   settings = {
+      --     python = {
+      --       analysis = {
+      --         autoSearchPaths = true,
+      --         useLibraryCodeForTypes = true,
+      --         diagnosticMode = "openFilesOnly",
+      --       },
+      --     },
+      --   },
+      -- })
 
       vim.lsp.config("ruff", {
         capabilities = capabilities,

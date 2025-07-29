@@ -731,6 +731,18 @@ require("lazy").setup({
   },
   {
     "github/copilot.vim",
+    config = function()
+      -- Disable default tab mapping
+      vim.g.copilot_no_tab_map = true
+      -- Map Ctrl-Y to accept copilot suggestion (only when suggestion is visible)
+      vim.keymap.set("i", "<C-y>", function()
+        if vim.fn["copilot#GetDisplayedSuggestion"]().text ~= "" then
+          return vim.fn["copilot#Accept"]("")
+        else
+          return "<C-I>"
+        end
+      end, { expr = true, replace_keycodes = false })
+    end,
   },
 
   {

@@ -8,4 +8,5 @@ cp ~/.dotfiles/_gitconfig ~/.gitconfig
 ln -s ~/.dotfiles/_inputrc ~/.inputrc
 ln -s ~/.dotfiles/_tmux.conf ~/.tmux.conf
 
-ln -s ~/.dotfiles/bin ~/bin
+mkdir -p ~/bin
+ln -s ~/.dotfiles/bin/ak_git_clean_slate ~/bin/ak_git_clean_slate

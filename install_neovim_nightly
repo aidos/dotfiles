@@ -10,13 +10,17 @@ nvm install --lts
 
 sudo apt install -y ripgrep python3-venv
 
-# build vim from src
-sudo apt-get install ninja-build gettext cmake unzip curl
-git clone https://github.com/neovim/neovim
-cd neovim
-git checkout stable
-make CMAKE_BUILD_TYPE=RelWithDebInfo
-sudo make install
+# Install neovim
+curl -LO https://github.com/neovim/neovim/releases/download/v0.11.4/nvim-linux-arm64.appimage
+chmod +x nvim-linux-arm64.appimage
+sudo mv nvim-linux-arm64.appimage /usr/local/bin/nvim
+# # build vim from src
+# sudo apt-get install ninja-build gettext cmake unzip curl
+# git clone https://github.com/neovim/neovim
+# cd neovim
+# git checkout stable
+# make CMAKE_BUILD_TYPE=RelWithDebInfo
+# sudo make install
 
 # neovim all the things
 CUSTOM_NVIM_PATH=/usr/local/bin/nvim
@@ -38,5 +42,5 @@ echo "Configuring vim"
 # run headless to get packer and all plugins running
 vi --headless
 # another run to install treesitter and language servers
-vi -c ":MasonInstall eslint bashls jsonls pyright tsserver tailwindcss"
+# vi -c ":MasonInstall eslint bashls jsonls pyright tsserver tailwindcss"
 

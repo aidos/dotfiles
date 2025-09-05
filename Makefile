@@ -1,14 +1,14 @@
 .PHONY: all install link neovim claude clean
 .DEFAULT_GOAL := install
 
-install: packages /usr/local/bin/uv ~/.nvm /usr/local/bin/nvim link claude
+install: packages ~/.local/bin/uv ~/.nvm /usr/local/bin/nvim link claude
 
 packages:
 	@echo "Installing packages..."
 	sudo apt update
 	sudo apt install -y htop tmux curl unzip tree ripgrep
 
-/usr/local/bin/uv:
+~/.local/bin/uv:
 	@echo "Installing uv..."
 	curl -LsSf https://astral.sh/uv/install.sh | sh
 

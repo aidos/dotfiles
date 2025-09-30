@@ -5,4 +5,3 @@
 "\e[C": forward-char
 "\e[D": backward-char
 "\ed": backward-kill-word
-

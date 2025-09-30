@@ -20,6 +20,9 @@ vim.opt.mouse = "a"
 -- Don't show the mode, since it's already in the status line
 vim.opt.showmode = false
 
+-- Disable line wrap
+vim.opt.wrap = false
+
 -- get double borders in telescope etc if I try to apply globally
 -- vim.o.winborder = "single"
 
@@ -240,7 +243,7 @@ require("lazy").setup({
     },
   },
 
-  { -- Useful plugin to show you pending keybinds.
+  {                     -- Useful plugin to show you pending keybinds.
     "folke/which-key.nvim",
     event = "VimEnter", -- Sets the loading event to 'VimEnter'
     opts = {
@@ -286,7 +289,7 @@ require("lazy").setup({
       },
       { "nvim-telescope/telescope-ui-select.nvim" },
 
-      { "nvim-tree/nvim-web-devicons", enabled = true },
+      { "nvim-tree/nvim-web-devicons",            enabled = true },
     },
     config = function()
       -- [[ Configure Telescope ]]

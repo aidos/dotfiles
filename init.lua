@@ -70,6 +70,17 @@ vim.opt.timeoutlen = 300
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 
+-- Better diff options
+vim.opt.diffopt = {
+  "internal",
+  "filler",
+  "closeoff",
+  "context:12",
+  "algorithm:histogram",
+  "linematch:200",
+  "indent-heuristic",
+}
+
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
@@ -242,6 +253,7 @@ require("lazy").setup({
   -- See `:help gitsigns` to understand what the configuration keys do
   { -- Adds git related signs to the gutter, as well as utilities for managing changes
     "lewis6991/gitsigns.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     opts = {
       signs = {
         add = { text = "+" },
@@ -249,6 +261,17 @@ require("lazy").setup({
         delete = { text = "_" },
         topdelete = { text = "‾" },
         changedelete = { text = "~" },
+      },
+    },
+    keys = {
+      {
+        "<leader>gc",
+        function()
+          require("gitsigns").setqflist("all", { open = false }, function()
+            vim.cmd("Trouble quickfix")
+          end)
+        end,
+        desc = "[G]it [C]hanges to Trouble",
       },
     },
   },
@@ -886,6 +909,59 @@ require("lazy").setup({
   },
 
   { "aidos/vim-simpledb" },
+
+  { -- Better quickfix/diagnostics list
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    cmd = "Trouble",
+    keys = {
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
+      { "<leader>xq", "<cmd>Trouble quickfix toggle<cr>",    desc = "Quickfix (Trouble)" },
+      {
+        "<leader>gm",
+        function()
+          -- Parse git diff against master into quickfix format
+          local diff = vim.fn.systemlist("git diff master --unified=0")
+          local qf_entries = {}
+          local current_file = nil
+
+          for _, line in ipairs(diff) do
+            -- Match file header: diff --git a/file b/file
+            local file = line:match("^diff %-%-git a/.+ b/(.+)$")
+            if file then
+              current_file = file
+            end
+            -- Match hunk header: @@ -old,count +new,count @@
+            local new_line = line:match("^@@ .+ %+(%d+)")
+            if new_line and current_file then
+              table.insert(qf_entries, {
+                filename = current_file,
+                lnum = tonumber(new_line),
+                text = "changed",
+              })
+            end
+          end
+
+          vim.fn.setqflist(qf_entries)
+          vim.cmd("Trouble quickfix")
+        end,
+        desc = "[G]it diff [M]aster to Trouble",
+      },
+    },
+    opts = {},
+  },
+
+  { -- Git diff viewer
+    "sindrets/diffview.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+    keys = {
+      { "<leader>gd", "<cmd>DiffviewOpen master<CR>",   desc = "[G]it [D]iff against master" },
+      { "<leader>gh", "<cmd>DiffviewFileHistory %<CR>", desc = "[G]it file [H]istory" },
+      { "<leader>gq", "<cmd>DiffviewClose<CR>",         desc = "[G]it diff [Q]uit" },
+    },
+    opts = {},
+  },
 })
 
 -- vim: ts=2 sts=2 sw=2 et

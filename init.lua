@@ -392,7 +392,7 @@ require("lazy").setup({
     dependencies = { "williamboman/mason.nvim" },
     opts = {
       ensure_installed = {
-        -- "pyright",
+        "pyright",
         "ruff",
         "ts_ls",
         "tailwindcss",
@@ -518,25 +518,32 @@ require("lazy").setup({
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-      -- Python
-      -- vim.lsp.config("pyright", {
-      --   capabilities = capabilities,
-      --   settings = {
-      --     python = {
-      --       analysis = {
-      --         autoSearchPaths = true,
-      --         useLibraryCodeForTypes = true,
-      --         diagnosticMode = "openFilesOnly",
-      --       },
-      --     },
-      --   },
-      -- })
+      -- Python: pyright for intellisense, ruff for linting/formatting
+      local python_capabilities = vim.tbl_deep_extend("force", capabilities, {
+        offsetEncoding = { "utf-16" },
+      })
+
+      vim.lsp.config("pyright", {
+        capabilities = python_capabilities,
+        settings = {
+          pyright = {
+            -- Let ruff handle imports
+            disableOrganizeImports = true,
+          },
+          python = {
+            analysis = {
+              autoSearchPaths = true,
+              useLibraryCodeForTypes = true,
+              diagnosticMode = "openFilesOnly",
+              -- Let ruff handle linting
+              typeCheckingMode = "off",
+            },
+          },
+        },
+      })
 
       vim.lsp.config("ruff", {
-        capabilities = capabilities,
-        settings = {
-          organizeImports = true,
-        },
+        capabilities = python_capabilities,
       })
 
       -- TypeScript with custom definition handler

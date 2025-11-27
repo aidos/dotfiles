@@ -1,6 +1,5 @@
 -- TODO
 --  - better lsp goto (ref to ignore def and def on component to ignore react type)
---  - commandline ctrl-p
 --  - git / merge
 --  - snippets,
 --  - whitespace stripping (autoformat can do this)
@@ -95,6 +94,14 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- jk / jj to leave insert mode
 vim.keymap.set("i", "jk", "<Esc>", { desc = "Leave insert mode with 'jk'" })
 vim.keymap.set("i", "jj", "<Esc>", { desc = "Leave insert mode with 'jj'" })
+
+-- Better search in command history with ctrl-p/n
+vim.keymap.set("c", "<C-p>", function()
+  return vim.fn.wildmenumode() == 1 and "<C-p>" or "<Up>"
+end, { expr = true })
+vim.keymap.set("c", "<C-n>", function()
+  return vim.fn.wildmenumode() == 1 and "<C-n>" or "<Down>"
+end, { expr = true })
 
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })

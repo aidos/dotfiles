@@ -104,7 +104,10 @@ vim.keymap.set("c", "<C-n>", function()
 end, { expr = true })
 
 -- Diagnostic keymaps
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, { desc = "[L]SP diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "<leader>le", function()
+  vim.diagnostic.open_float({ border = "single" })
+end, { desc = "[L]SP diagnostic [E]rror float" })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })

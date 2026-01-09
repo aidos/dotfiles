@@ -715,7 +715,7 @@ require("lazy").setup({
             luasnip.lsp_expand(args.body)
           end,
         },
-        completion = { completeopt = "menu,menuone,noinsert" },
+        completion = { completeopt = "menu,menuone,noselect" },
 
         -- For an understanding of why these mappings were
         -- chosen, you will need to read `:help ins-completion`
@@ -732,9 +732,16 @@ require("lazy").setup({
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
 
           -- Accept ([y]es) the completion.
-          --  This will auto-import if your LSP supports it.
-          --  This will expand snippets if the LSP sent a snippet.
-          ["<C-y>"] = cmp.mapping.confirm({ select = true }),
+          -- cmp selection gets priority (user explicitly navigated), otherwise Copilot.
+          ["<C-y>"] = cmp.mapping(function(fallback)
+            if cmp.get_selected_entry() then
+              cmp.confirm()
+            elseif vim.fn["copilot#GetDisplayedSuggestion"]().text ~= "" then
+              vim.fn.feedkeys(vim.fn["copilot#Accept"](""), "n")
+            else
+              fallback()
+            end
+          end, { "i" }),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -779,16 +786,7 @@ require("lazy").setup({
   {
     "github/copilot.vim",
     config = function()
-      -- Disable default tab mapping
       vim.g.copilot_no_tab_map = true
-      -- Map Ctrl-Y to accept copilot suggestion (only when suggestion is visible)
-      vim.keymap.set("i", "<C-y>", function()
-        if vim.fn["copilot#GetDisplayedSuggestion"]().text ~= "" then
-          return vim.fn["copilot#Accept"]("")
-        else
-          return "<C-I>"
-        end
-      end, { expr = true, replace_keycodes = false })
     end,
   },
 

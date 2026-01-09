@@ -332,6 +332,8 @@ require("lazy").setup({
         --  All the info you're looking for is in `:help telescope.setup()`
         --
         defaults = {
+          path_display = { filename_first = { reverse_directories = false } },
+          dynamic_preview_title = true,
           -- mappings = {
           --   i = { ['<c-enter>'] = 'to_fuzzy_refine' },
           -- },

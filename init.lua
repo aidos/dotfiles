@@ -304,7 +304,6 @@ require("lazy").setup({
   { -- Fuzzy Finder (files, lsp, etc)
     "nvim-telescope/telescope.nvim",
     event = "VimEnter",
-    branch = "0.1.x",
     dependencies = {
       "nvim-lua/plenary.nvim",
       { -- If encountering errors, see telescope-fzf-native README for installation instructions
@@ -859,11 +858,12 @@ require("lazy").setup({
 
   { -- Highlight, edit, and navigate code
     "nvim-treesitter/nvim-treesitter",
+    branch = "master",
     build = ":TSUpdate",
-    main = "nvim-treesitter.configs", -- Sets main module to use for opts
-    dependencies = {
-      "RRethy/nvim-treesitter-textsubjects",
-    },
+    main = "nvim-treesitter.config", -- Sets main module to use for opts
+    -- dependencies = {
+    --   "RRethy/nvim-treesitter-textsubjects",
+    -- },
     opts = {
       ensure_installed = {
         "python",
@@ -898,13 +898,13 @@ require("lazy").setup({
         additional_vim_regex_highlighting = { "ruby" },
       },
       indent = { enable = true, disable = { "ruby" } },
-      textsubjects = {
-        enable = true,
-        prev_selection = ",",
-        keymaps = {
-          ["."] = "textsubjects-smart",
-        },
-      },
+      -- textsubjects = {
+      --   enable = true,
+      --   prev_selection = ",",
+      --   keymaps = {
+      --     ["."] = "textsubjects-smart",
+      --   },
+      -- },
     },
   },
 

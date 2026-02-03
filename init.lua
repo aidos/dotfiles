@@ -667,6 +667,16 @@ require("lazy").setup({
         -- yaml = { "prettier" },
         -- markdown = { "prettier" },
       },
+      formatters = {
+        ruff_fix = {
+          command = "uv",
+          args = { "run", "ruff", "check", "--fix", "--stdin-filename", "$FILENAME", "-" },
+        },
+        ruff_format = {
+          command = "uv",
+          args = { "run", "ruff", "format", "--stdin-filename", "$FILENAME", "-" },
+        },
+      },
     },
   },
 

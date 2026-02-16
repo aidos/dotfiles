@@ -46,12 +46,13 @@ packages:
 
 link:
 	@echo "Linking dotfiles..."
-	mkdir -p ~/.ssh ~/bin
+	mkdir -p ~/.ssh ~/bin ~/.config/opencode
 	ln -sf ~/.dotfiles/_ssh/rc ~/.ssh/rc
 	ln -sf ~/.dotfiles/_tmux.conf ~/.tmux.conf
 	cp ~/.dotfiles/_gitconfig ~/.gitconfig
 	ln -sf ~/.dotfiles/_inputrc ~/.inputrc
 	ln -sf ~/.dotfiles/bin/ak_git_clean_slate ~/bin/ak_git_clean_slate
+	ln -sf ~/.dotfiles/_opencode.json ~/.config/opencode/opencode.json
 
 claude: | ~/.nvm
 	@echo "Installing Claude Code..."

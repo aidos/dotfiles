@@ -870,7 +870,7 @@ require("lazy").setup({
     "nvim-treesitter/nvim-treesitter",
     branch = "master",
     build = ":TSUpdate",
-    main = "nvim-treesitter.config", -- Sets main module to use for opts
+    main = "nvim-treesitter", -- Sets main module to use for opts
     -- dependencies = {
     --   "RRethy/nvim-treesitter-textsubjects",
     -- },

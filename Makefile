@@ -1,7 +1,7 @@
-.PHONY: all install link neovim claude clean
+.PHONY: all install link neovim pi clean
 .DEFAULT_GOAL := install
 
-install: packages ~/.local/bin/uv ~/.nvm /usr/local/bin/nvim link claude
+install: packages ~/.local/bin/uv ~/.nvm /usr/local/bin/nvim link pi
 
 packages:
 	@echo "Installing packages..."
@@ -54,12 +54,12 @@ link:
 	ln -sf ~/.dotfiles/bin/ak_git_clean_slate ~/bin/ak_git_clean_slate
 	ln -sf ~/.dotfiles/_opencode.json ~/.config/opencode/opencode.json
 
-claude: | ~/.nvm
-	@echo "Installing Claude Code..."
-	@if ! bash -c 'source ~/.nvm/nvm.sh && which claude >/dev/null 2>&1'; then \
-		bash -c 'source ~/.nvm/nvm.sh && npm install -g @anthropic-ai/claude-code'; \
+pi: | ~/.nvm
+	@echo "Installing pi..."
+	@if ! bash -c 'source ~/.nvm/nvm.sh && which pi >/dev/null 2>&1'; then \
+		bash -c 'source ~/.nvm/nvm.sh && npm install -g @earendil-works/pi-coding-agent'; \
 	else \
-		echo "Claude Code already installed at $$(bash -c 'source ~/.nvm/nvm.sh && which claude')"; \
+		echo "pi already installed at $$(bash -c 'source ~/.nvm/nvm.sh && which pi')"; \
 	fi
 
 all: install
